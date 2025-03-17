@@ -5,6 +5,7 @@ import {
   View,
 } from 'react-native';
 import { Content } from './src/components/content';
+import colors from './src/styles/colors';
 
 
 // function Section({children, title}: SectionProps): React.JSX.Element {
@@ -99,7 +100,7 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: "#1E3A32",
+    color: colors.text,
     textAlign: 'center',
   },
   sectionDescription: {
@@ -111,7 +112,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
   mainContainer: {
-    backgroundColor: "#E9F5EC",
+    backgroundColor: colors.background,
     flex: 1,
     paddingTop: 50,
   },
