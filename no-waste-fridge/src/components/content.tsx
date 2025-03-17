@@ -8,8 +8,8 @@ export function Content(props: any): React.JSX.Element {
         <View>
           <Image source={require("../assets/images/default-food.png")}  style={styles.image} resizeMode="contain" />
         </View>
-        <View>
-            <Text style={styles.text}>{props.name}</Text>
+        <View style={styles.textContainer}>
+            <Text style={styles.text} numberOfLines={1}>{props.name}</Text>
         </View>
     </View>
   );
@@ -27,6 +27,9 @@ const styles = StyleSheet.create({
     },
     image: { width: 80, height: 80 },
     text: {
-      color: colors.text
+      color: colors.text,
+    },
+    textContainer: {
+      paddingHorizontal: 4,
     }
 });

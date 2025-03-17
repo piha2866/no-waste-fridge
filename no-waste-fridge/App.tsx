@@ -41,7 +41,7 @@ export default function App(): React.JSX.Element {
       <View style={styles.contentGridContainer}>
         <Text style={styles.sectionTitle}>Your fridges content</Text>
         <View style={styles.contentWrapper}>
-          <Content name={"Test"} />
+          <Content name={"Teghhgv uzguib niofz tzfzrdst"} />
           <Content name={"Test1"} />
           <Content name={"Test2"} />
           <Content name={"Test"} />
