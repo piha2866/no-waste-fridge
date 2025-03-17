@@ -6,6 +6,7 @@ import {
 } from 'react-native';
 import { Content } from './src/components/content';
 import colors from './src/styles/colors';
+import { ContentGrid } from './src/components/content_grid';
 
 
 // function Section({children, title}: SectionProps): React.JSX.Element {
@@ -41,21 +42,7 @@ export default function App(): React.JSX.Element {
       <View style={styles.contentGridContainer}>
         <Text style={styles.sectionTitle}>Your fridges content</Text>
         <View style={styles.contentWrapper}>
-          <Content name={"Teghhgv uzguib niofz tzfzrdst"} />
-          <Content name={"Test1"} />
-          <Content name={"Test2"} />
-          <Content name={"Test"} />
-          <Content name={"Test1"} />
-          <Content name={"Test2"} />
-          <Content name={"Test"} />
-          <Content name={"Test1"} />
-          <Content name={"Test2"} />
-          <Content name={"Test"} />
-          <Content name={"Test1"} />
-          <Content name={"Test2"} />
-          <Content name={"Test"} />
-          <Content name={"Test1"} />
-          <Content name={"Test2"} />
+          <ContentGrid items={["Test13 uzfzt 6657 hjthcvjk", "Test2", "Test3", "Test2", "Test3", "Test2", "Test3", "Test2", "Test3", "Test2", "Test3"].sort()} />
         </View>
       </View>
       {/* <StatusBar
@@ -114,7 +101,7 @@ const styles = StyleSheet.create({
   mainContainer: {
     backgroundColor: colors.background,
     flex: 1,
-    paddingTop: 50,
+    paddingTop: '10%',
   },
   contentWrapper: {
     marginTop: 32,
