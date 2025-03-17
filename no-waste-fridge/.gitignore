@@ -3,7 +3,8 @@
 
 # Build folders
 /android/build/
-/android/app/build/
+/android/app/
+/android/.gradle/
 /ios/build/
 
 # React Native specific
