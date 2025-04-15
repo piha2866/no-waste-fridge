@@ -41,9 +41,7 @@ export default function App(): React.JSX.Element {
     }> 
       <View style={styles.contentGridContainer}>
         <Text style={styles.sectionTitle}>Your fridges content</Text>
-        <View style={styles.contentWrapper}>
-          <ContentGrid items={["Test13 uzfzt 6657 hjthcvjk", "Test2", "Test3", "Test2", "Test3", "Test2", "Test3", "Test2", "Test3", "Test2", "Test3"].sort()} />
-        </View>
+        <ContentGrid items={["Test13 uzfzt 6657 hjthcvjk", "Test2", "Test3", "Test2", "Test3", "Test2", "Test3", "Test2", "Test3", "Test2", "Test3"].sort()} />
       </View>
       {/* <StatusBar
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
@@ -107,6 +105,6 @@ const styles = StyleSheet.create({
     marginTop: 32,
     flexDirection: 'row',
     flexWrap: 'wrap',
-    justifyContent: 'space-between',
+    justifyContent: 'space-around',
   }
 });

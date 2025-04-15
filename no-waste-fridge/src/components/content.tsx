@@ -17,11 +17,13 @@ export function Content(props: any): React.JSX.Element {
 
 const styles = StyleSheet.create({
     contentContainer: {
+        flex: 1,
         backgroundColor: "white",
         margin: 10,
         borderRadius: 20,
-        width: 100,
-        height: 120,
+        // width: 100,
+        // height: 120,
+        aspectRatio: 1,
         justifyContent: "center",
         alignItems: "center",
     },
