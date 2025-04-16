@@ -1,17 +1,13 @@
 import React from "react";
-import { View, Text, StyleSheet, Image } from "react-native";
+import { View, Text, StyleSheet, Image, Button, TouchableOpacity } from "react-native";
 import colors from "../styles/colors";
 
 export function Content(props: any): React.JSX.Element {
   return (
-    <View style={styles.contentContainer}>
-        <View>
-          <Image source={require("../assets/images/default-food.png")}  style={styles.image} resizeMode="contain" />
-        </View>
-        <View style={styles.textContainer}>
-            <Text style={styles.text} numberOfLines={1}>{props.name}</Text>
-        </View>
-    </View>
+    <TouchableOpacity style={styles.contentContainer}>
+      <Image source={require("../assets/images/default-food.png")}  style={styles.image} resizeMode="contain" />
+      <Text style={styles.text} numberOfLines={1}>{props.name}</Text>
+    </TouchableOpacity>
   );
 }
 
@@ -29,8 +25,6 @@ const styles = StyleSheet.create({
     image: { width: 80, height: 80 },
     text: {
       color: colors.text,
+      paddingHorizontal: 10
     },
-    textContainer: {
-      paddingHorizontal: 4,
-    }
 });
