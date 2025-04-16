@@ -1,23 +1,27 @@
 import React from 'react';
-import { View, Text, Image, FlatList, StyleSheet, useWindowDimensions } from 'react-native';
+import { View, Text, Image, FlatList, StyleSheet, useWindowDimensions, ScrollView } from 'react-native';
 import { Content } from './content';
-import styles from 
 
 export default function ContentGrid(props: any): React.JSX.Element{
     const { width, height } = useWindowDimensions();
     return (
-      <View style={styles.gridContainer}>
-        {props.items.map((item: string) => (
-          <Content name={item}/>
+      <ScrollView style={styles.scrollView} contentContainerStyle={{...styles.contentWrapper, paddingBottom: height*0.2}}>
+        {props.items.map((item: string, index: number) => (
+          <Content name={item} key={index} />
         ))}
-      </View>
+      </ScrollView>
     );
-  }
+}
 
 const styles = StyleSheet.create({
-    gridContainer: {
-        padding: 10,
-        flex: 1,
-        justifyContent: 'center',
+    scrollView: {
+      display: 'flex',
     },
+
+  contentWrapper: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-around',
+    alignContent: 'flex-start',
+  }
 });

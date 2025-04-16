@@ -1,8 +1,8 @@
 # ninja log v5
-1	158	0	/Users/Pia.Halberstadt/Documents/Repos/no-waste-fridge/android/app/.cxx/Debug/h101y715/arm64-v8a/CMakeFiles/cmake.verify_globs	3675be14b491b721
-0	4406	1742235190552681795	CMakeFiles/appmodules.dir/Users/Pia.Halberstadt/Documents/Repos/no-waste-fridge/android/app/build/generated/autolinking/src/main/jni/autolinking.cpp.o	7916da92bc65992b
-1	4736	1742235190887495105	CMakeFiles/appmodules.dir/OnLoad.cpp.o	f33becc23fdacf44
-4736	4978	1742235191143203858	/Users/Pia.Halberstadt/Documents/Repos/no-waste-fridge/android/app/build/intermediates/cxx/Debug/h101y715/obj/arm64-v8a/libappmodules.so	33594c31856562a9
-0	44	0	/Users/Pia.Halberstadt/Documents/Repos/no-waste-fridge/android/app/.cxx/Debug/h101y715/arm64-v8a/CMakeFiles/cmake.verify_globs	3675be14b491b721
-1	49	0	/Users/Pia.Halberstadt/Documents/Repos/no-waste-fridge/android/app/.cxx/Debug/h101y715/arm64-v8a/CMakeFiles/cmake.verify_globs	3675be14b491b721
-2	68	0	/Users/Pia.Halberstadt/Documents/Repos/no-waste-fridge/android/app/.cxx/Debug/h101y715/arm64-v8a/CMakeFiles/cmake.verify_globs	3675be14b491b721
+0	28	0	/Users/Pia.Halberstadt/Documents/Repos/no-waste-fridge/android/app/.cxx/Debug/h101y715/arm64-v8a/CMakeFiles/cmake.verify_globs	3675be14b491b721
+0	2146	1742293535071241395	CMakeFiles/appmodules.dir/Users/Pia.Halberstadt/Documents/Repos/no-waste-fridge/android/app/build/generated/autolinking/src/main/jni/autolinking.cpp.o	7916da92bc65992b
+1	2368	1742293535300343108	CMakeFiles/appmodules.dir/OnLoad.cpp.o	f33becc23fdacf44
+2368	2475	1742293535411976555	/Users/Pia.Halberstadt/Documents/Repos/no-waste-fridge/android/app/build/intermediates/cxx/Debug/h101y715/obj/arm64-v8a/libappmodules.so	33594c31856562a9
+12	245	0	/Users/Pia.Halberstadt/Documents/Repos/no-waste-fridge/android/app/.cxx/Debug/h101y715/arm64-v8a/CMakeFiles/cmake.verify_globs	3675be14b491b721
+1	43	0	/Users/Pia.Halberstadt/Documents/Repos/no-waste-fridge/android/app/.cxx/Debug/h101y715/arm64-v8a/CMakeFiles/cmake.verify_globs	3675be14b491b721
+0	36	0	/Users/Pia.Halberstadt/Documents/Repos/no-waste-fridge/android/app/.cxx/Debug/h101y715/arm64-v8a/CMakeFiles/cmake.verify_globs	3675be14b491b721
