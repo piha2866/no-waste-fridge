@@ -2,9 +2,7 @@
 /node_modules/
 
 # Build folders
-/android/build/
-/android/app/
-/android/.gradle/
+/android
 /ios/build/
 
 # React Native specific
