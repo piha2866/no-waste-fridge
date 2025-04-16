@@ -1,11 +1,11 @@
 import React from "react";
 import { View, Text, StyleSheet, Image, Button, TouchableOpacity } from "react-native";
-import colors from "../styles/colors";
+import colors from "../../styles/colors";
 
 export function Content(props: any): React.JSX.Element {
   return (
     <TouchableOpacity style={styles.contentContainer}>
-      <Image source={require("../assets/images/default-food.png")}  style={styles.image} resizeMode="contain" />
+      <Image source={require("../../assets/images/default-food.png")}  style={styles.image} resizeMode="contain" />
       <Text style={styles.text} numberOfLines={1}>{props.name}</Text>
     </TouchableOpacity>
   );

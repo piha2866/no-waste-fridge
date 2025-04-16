@@ -5,10 +5,9 @@ import {
   useWindowDimensions,
   View,
 } from 'react-native';
-import { Content } from './src/components/content';
+import ContentGrid from './src/screens/content/content_grid';
+import ContentCreationButton from './src/screens/content/content_creation_button';
 import colors from './src/styles/colors';
-import ContentGrid from './src/components/content_grid';
-import ContentCreationButton from './src/components/content-creation-button';
 
 export default function App(): React.JSX.Element {
   const { width, height } = useWindowDimensions();
