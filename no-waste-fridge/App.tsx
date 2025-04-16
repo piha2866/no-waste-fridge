@@ -8,6 +8,7 @@ import {
 import { Content } from './src/components/content';
 import colors from './src/styles/colors';
 import ContentGrid from './src/components/content_grid';
+import ContentCreationButton from './src/components/content-creation-button';
 
 export default function App(): React.JSX.Element {
   const { width, height } = useWindowDimensions();
@@ -17,6 +18,7 @@ export default function App(): React.JSX.Element {
         <Text style={{...styles.sectionTitle, paddingVertical: height*0.05}}>Your fridges content</Text>
         <ContentGrid items={["Test13 uzfzt 6657 hjthcvjk","Test13 uzfzt 6657 hjthcvjk", "Test2", "Test3", "Test2", "Test3", "Test2", "Test3", "Test2", "Test13 uzfzt 6657 hjthcvjk", "Test2", "Test3", "Test2", "Test3", "Test2", "Test3", "Test2","Test2", "Test3", "Test2", "Test3", "Test2", "Test3", "Test2","Test13 uzfzt 6657 hjthcvjk", "Test2", "Test3", "Test2", "Test3", "Test2", "Test3", "Test2"].sort()} />
       </View>
+      <ContentCreationButton/>
       {}
     </View>
   );
