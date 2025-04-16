@@ -3,7 +3,7 @@
 
 # Build folders
 /android
-/ios/build/
+/ios
 
 # React Native specific
 *.log
