@@ -20,14 +20,14 @@ export const BackButton = (props: any) => {
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: colors.text,
-    borderRadius: 20,
-    paddingHorizontal: 25,
-    paddingVertical: 15,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
     width: 50,
     height: 50,
   },
   text: {
-    fontSize: 32
+    fontSize: 32,
+    color: colors.text,
   },
 });

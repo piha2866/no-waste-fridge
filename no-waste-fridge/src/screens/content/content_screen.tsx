@@ -2,8 +2,8 @@ import React from 'react';
 import { View, Text, Button, StyleSheet, useWindowDimensions } from 'react-native';
 import ContentGrid from './content_grid';
 import ContentCreationButton from './content_creation_button';
-import colors from '../../styles/colors';
 import container from '../../styles/container';
+import text from '../../styles/text';
 
 const ContentScreen = ({ }) => {
     const { width, height } = useWindowDimensions();
@@ -24,9 +24,7 @@ const styles = StyleSheet.create({
       flexGrow: 1,
     },
     sectionTitle: {
-      fontSize: 24,
-      fontWeight: 'bold',
-      color: colors.text,
+      ...text.title,
       textAlign: 'center',
     },
   });
