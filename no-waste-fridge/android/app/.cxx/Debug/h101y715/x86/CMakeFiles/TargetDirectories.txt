@@ -1,3 +1,0 @@
-/Users/Pia.Halberstadt/Documents/Repos/no-waste-fridge/android/app/.cxx/Debug/h101y715/x86/CMakeFiles/appmodules.dir
-/Users/Pia.Halberstadt/Documents/Repos/no-waste-fridge/android/app/.cxx/Debug/h101y715/x86/CMakeFiles/edit_cache.dir
-/Users/Pia.Halberstadt/Documents/Repos/no-waste-fridge/android/app/.cxx/Debug/h101y715/x86/CMakeFiles/rebuild_cache.dir

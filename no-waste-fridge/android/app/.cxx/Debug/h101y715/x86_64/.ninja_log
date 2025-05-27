@@ -1,8 +1,0 @@
-# ninja log v5
-1	27	0	/Users/Pia.Halberstadt/Documents/Repos/no-waste-fridge/android/app/.cxx/Debug/h101y715/x86_64/CMakeFiles/cmake.verify_globs	ca971118dd2bd32c
-0	1926	1742235204804231203	CMakeFiles/appmodules.dir/Users/Pia.Halberstadt/Documents/Repos/no-waste-fridge/android/app/build/generated/autolinking/src/main/jni/autolinking.cpp.o	9eab348d7f697d21
-1	2103	1742235204982766505	CMakeFiles/appmodules.dir/OnLoad.cpp.o	494a647d0048002b
-2103	2208	1742235205093067746	/Users/Pia.Halberstadt/Documents/Repos/no-waste-fridge/android/app/build/intermediates/cxx/Debug/h101y715/obj/x86_64/libappmodules.so	310496248c1a195d
-0	19	0	/Users/Pia.Halberstadt/Documents/Repos/no-waste-fridge/android/app/.cxx/Debug/h101y715/x86_64/CMakeFiles/cmake.verify_globs	ca971118dd2bd32c
-1	28	0	/Users/Pia.Halberstadt/Documents/Repos/no-waste-fridge/android/app/.cxx/Debug/h101y715/x86_64/CMakeFiles/cmake.verify_globs	ca971118dd2bd32c
-1	29	0	/Users/Pia.Halberstadt/Documents/Repos/no-waste-fridge/android/app/.cxx/Debug/h101y715/x86_64/CMakeFiles/cmake.verify_globs	ca971118dd2bd32c
