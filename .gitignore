@@ -2,8 +2,8 @@
 node_modules/
 
 # Build folders
-android
-ios
+android/
+ios/
 
 # React Native specific
 *.log
