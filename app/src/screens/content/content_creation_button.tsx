@@ -3,6 +3,7 @@ import { TouchableOpacity, StyleSheet, Text } from "react-native";
 import colors from "../../styles/colors";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import { StackParamList } from "../../navigation/AppNavigator";
 
 type NavigationProp = NativeStackNavigationProp<StackParamList>;
@@ -15,7 +16,7 @@ export default function ContentCreationButton(props: any): React.JSX.Element {
     }
     return (
         <TouchableOpacity style={styles.overlayButton} onPress={handlePress}>
-            <Text style={styles.text}>+</Text>
+            <Icon name="add" size={32} color={colors.background}/>
         </TouchableOpacity>
     );
 }
@@ -27,8 +28,7 @@ const styles = StyleSheet.create({
         right: 20,
         backgroundColor: colors.text,
         borderRadius: 20,
-        paddingHorizontal: 25,
-        paddingVertical: 15,
+        padding: 20,
     },
     text: {
         fontSize: 32,

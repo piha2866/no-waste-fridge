@@ -1,23 +1,33 @@
 import React from 'react';
 import { View, Text, StyleSheet, useWindowDimensions, Image, TextInput } from 'react-native';
-import { BackButton } from '../../components/buttons';
+import { BackButton, IconButton } from '../../components/buttons';
 import text from '../../styles/text';
 import container from '../../styles/container';
+import { useNavigation } from '@react-navigation/native';
 
 const DetailsScreen = () => {
   const { width, height } = useWindowDimensions();
+  const navigation = useNavigation();
+    
+  const handleBack = () => {
+    navigation.goBack();
+  };
+  const handleDelete = () => console.log("Sure you want to delete?")
+  const handleClone = () => console.log("Go to cloning edit page?")
+  const handleReset = () => console.log("Set dates to now")
   return (
     <View style={{...container.main, paddingVertical: height*0.05}}>
       <View style={styles.imageIconsContainer}>
         <View style={styles.left}>
-          <BackButton/>
+          <IconButton iconName='arrow-back' onPress={handleBack}/>
         </View>
         <View style={styles.middle}>
           <Image source={require("../../assets/images/default-food.png")}  style={styles.image} resizeMode="contain" />
         </View>
         <View style={styles.right}>
-          <Text>Right 1</Text>
-          <Text>Right 2</Text>
+          <IconButton iconName='delete' onPress={handleDelete}/>
+          <IconButton iconName='content-copy' onPress={handleClone}/>
+          <IconButton iconName='restore'onPress={handleReset}/>
         </View>
       </View>
       <View>
@@ -54,14 +64,12 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'flex-start',
     padding: 10,
-    backgroundColor: '#e0f7fa',
   },
   middle: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
     padding: 10,
-    backgroundColor: '#fce4ec',
   },
   right: {
     width: 75,
@@ -69,7 +77,6 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
     justifyContent: 'flex-start',
     padding: 10,
-    backgroundColor: '#f3e5f5',
   },
   dateView: { 
     flexWrap: 'wrap', 
@@ -80,7 +87,6 @@ const styles = StyleSheet.create({
   },
   imageIconsContainer: {
     height: '30%', 
-    backgroundColor: 'pink', 
     flexDirection: 'row', 
     display: 'flex'},
     detailsContaienr: {
