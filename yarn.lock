@@ -1918,6 +1918,11 @@
   dependencies:
     undici-types "~6.21.0"
 
+"@types/react-native-sqlite-storage@^6.0.5":
+  version "6.0.5"
+  resolved "https://registry.npmjs.org/@types/react-native-sqlite-storage/-/react-native-sqlite-storage-6.0.5.tgz"
+  integrity sha512-1gPwgYil6pHV/EDF816M8KmVsQC5nGMTAm8OMC25GbyuBaXFn7sdguMq6A2owtXB8c4qsH2tOEIQNetbOquawA==
+
 "@types/react-native-vector-icons@^6.4.18":
   version "6.4.18"
   resolved "https://registry.npmjs.org/@types/react-native-vector-icons/-/react-native-vector-icons-6.4.18.tgz"
@@ -5663,7 +5668,7 @@ react-native-screens@^4.10.0:
 
 react-native-sqlite-storage@^6.0.1:
   version "6.0.1"
-  resolved "https://registry.yarnpkg.com/react-native-sqlite-storage/-/react-native-sqlite-storage-6.0.1.tgz#ce6a6b852f07abbea68658d5363818c8bef45dfb"
+  resolved "https://registry.npmjs.org/react-native-sqlite-storage/-/react-native-sqlite-storage-6.0.1.tgz"
   integrity sha512-1tDFjrint6X6qSYKf3gDyz+XB+X79jfiL6xTugKHPRtF0WvqMtVgdLuNqZunIXjNEvNtNVEbXaeZ6MsguFu00A==
 
 react-native-vector-icons@^10.2.0:

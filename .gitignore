@@ -2,7 +2,21 @@
 node_modules/
 
 # Build folders
-android/
+# Android specific
+/android/.gradle/
+/android/.idea/
+/android/build/
+/android/app/build/
+/android/local.properties
+/android/*.iml
+/android/app/*.iml
+/android/captures/
+/android/.DS_Store
+/android/gradle.properties.lock
+/android/gradlew.bat.lock
+/android/gradlew.lock
+android/app/.cxx/
+
 ios/
 
 # React Native specific
