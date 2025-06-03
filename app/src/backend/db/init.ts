@@ -9,44 +9,38 @@ export const getDBConnection = async () => {
 };
 
 export const createTable = async (db: SQLiteDatabase) => {
-    console.log("A")
-  // create table if not exists
   const query = `CREATE TABLE IF NOT EXISTS ${tableName} (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  title TEXT NOT NULL,
-  content TEXT NOT NULL,
-  created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-);`;
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    title TEXT NOT NULL,
+    description TEXT,
+    opening_date TEXT NOT NULL,
+    expiration_date TEXT NOT NULL
+    );`;
     await db.executeSql(`DROP TABLE IF EXISTS ${tableName};`)
   await db.executeSql(query);
-  console.log("ININ")
-  try {
-  await db.executeSql(`INSERT INTO ${tableName} (title, content) VALUES
-  ('Groceries', 'Buy milk, eggs, and bread'),
-  ('Workout Plan', 'Monday: chest, Tuesday: back'),
-  ('Meeting Notes', 'Discuss project roadmap and milestones'),
-  ('Books to Read', 'The Great Gatsby, 1984, Brave New World'),
-  ('Ideas', 'App for tracking daily habits');`)
-  } catch (error) {
-    console.log("EERR", error)
-  }
-  console.log("INSERTED")
+    await db.executeSql(`INSERT INTO ${tableName} (title, description, opening_date, expiration_date) VALUES
+    ('Groceries', 'Buy milk, eggs, and bread', '${new Date()}', '${new Date()}'),
+    ('Workout Plan', 'Monday: chest, Tuesday: back', '${new Date()}', '${new Date()}'),
+    ('Meeting Notes', 'Discuss project roadmap and milestones', '${new Date()}', '${new Date()}'),
+    ('Books to Read', 'The Great Gatsby, 1984, Brave New World', '${new Date()}', '${new Date()}'),
+    ('Ideas', 'App for tracking daily habits', '${new Date()}', '${new Date()}');`)
 };
+
+export interface Note {
+  id: number;
+  title: string;
+  description: string;
+  opening_date: string;
+  expiration_date: string;
+}
 
 export const getNotes = async (db: SQLiteDatabase) => {
     const [data] = await db.executeSql(`Select * from ${tableName}`)
-    console.log(data)
-    console.log(data.rows.item(0))
-    return data;
+    return data.rows.raw() as Note[];
 }
 
 export const initializeDB = async () => {
-    console.log("in func")
     const db = await getDBConnection();
-    console.log("got db")
     await createTable(db);
-    console.log("created table")
-    const data = await getNotes(db);
-    console.log("NOTESS", data)
     return db;
 }

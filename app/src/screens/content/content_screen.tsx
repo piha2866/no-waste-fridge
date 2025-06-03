@@ -1,17 +1,28 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, Button, StyleSheet, useWindowDimensions } from 'react-native';
 import ContentGrid from './content_grid';
 import ContentCreationButton from './content_creation_button';
 import container from '../../styles/container';
 import text from '../../styles/text';
+import { getNotes, initializeDB, Note } from '../../backend/db/init';
 
 const ContentScreen = ({ }) => {
+  const [notes, setNotes] = useState<Note[]>([])
+
+  const establishDBConnection = async () => {
+    const db = await initializeDB();
+    const data = await getNotes(db);
+    setNotes(data);
+  }
+  useEffect(() => {
+    establishDBConnection();
+  }, []);
     const { width, height } = useWindowDimensions();
     return (
         <View style={{...container.main, paddingVertical: height*0.05}}> 
             <View style={styles.contentGridContainer}>
                 <Text style={{...styles.sectionTitle, paddingVertical: height*0.05}}>Your fridges content</Text>
-                <ContentGrid items={["Test13 uzfzt 6657 hjthcvjk","Test13 uzfzt 6657 hjthcvjk", "Test2", "Test3", "Test2", "Test3", "Test2", "Test3", "Test2", "Test13 uzfzt 6657 hjthcvjk", "Test2", "Test3", "Test2", "Test3", "Test2", "Test3", "Test2","Test2", "Test3", "Test2", "Test3", "Test2", "Test3", "Test2","Test13 uzfzt 6657 hjthcvjk", "Test2", "Test3", "Test2", "Test3", "Test2", "Test3", "Test2"].sort()} />
+                <ContentGrid items={notes.map(note => note.title)} />
             </View>
             <ContentCreationButton/>
             {}
