@@ -4,14 +4,16 @@ import ContentGrid from './content_grid';
 import ContentCreationButton from './content_creation_button';
 import container from '../../styles/container';
 import text from '../../styles/text';
-import { getNotes, initializeDB, Note } from '../../backend/db/init';
+import { initializeDB } from '../../backend/db/main';
+import { selectNotes } from '../../backend/db/notes/select';
+import { Note } from '../../backend/db/types';
 
 const ContentScreen = ({ }) => {
   const [notes, setNotes] = useState<Note[]>([])
 
   const establishDBConnection = async () => {
     const db = await initializeDB();
-    const data = await getNotes(db);
+    const data = await selectNotes(db);
     setNotes(data);
   }
   useEffect(() => {

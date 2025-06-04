@@ -26,20 +26,7 @@ export const createTable = async (db: SQLiteDatabase) => {
     ('Ideas', 'App for tracking daily habits', '${new Date()}', '${new Date()}');`)
 };
 
-export interface Note {
-  id: number;
-  title: string;
-  description: string;
-  opening_date: string;
-  expiration_date: string;
-}
-
-export const getNotes = async (db: SQLiteDatabase) => {
-    const [data] = await db.executeSql(`Select * from ${tableName}`)
-    return data.rows.raw() as Note[];
-}
-
-export const initializeDB = async () => {
+export const initializeDB = async (): Promise<SQLiteDatabase> => {
     const db = await getDBConnection();
     await createTable(db);
     return db;
