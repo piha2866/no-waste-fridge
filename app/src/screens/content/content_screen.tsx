@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Button, StyleSheet, useWindowDimensions } from 'react-native';
-import ContentGrid from './content_grid';
-import ContentCreationButton from './content_creation_button';
-import container from '../../styles/container';
-import text from '../../styles/text';
+import { StyleSheet, Text, useWindowDimensions, View } from 'react-native';
+
 import { initializeDB } from '../../backend/db/main';
 import { selectNotes } from '../../backend/db/notes/select';
 import { Note } from '../../backend/db/types';
+import container from '../../styles/container';
+import text from '../../styles/text';
+import ContentCreationButton from './content_creation_button';
+import ContentGrid from './content_grid';
 
 const ContentScreen = ({}) => {
   const [notes, setNotes] = useState<Note[]>([]);
@@ -17,7 +18,7 @@ const ContentScreen = ({}) => {
     setNotes(data);
   };
   useEffect(() => {
-    establishDBConnection();
+    void establishDBConnection();
   }, []);
   const { width, height } = useWindowDimensions();
   return (

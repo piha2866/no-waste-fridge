@@ -1,7 +1,8 @@
-import DetailsScreen from '../screens/content-details/details_screen';
-import ContentScreen from '../screens/content/content_screen';
-import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import React from 'react';
+
+import ContentScreen from '../screens/content/content_screen';
+import DetailsScreen from '../screens/content-details/details_screen';
 
 const Stack = createNativeStackNavigator();
 

@@ -1,4 +1,5 @@
 import { ImageStyle, TextStyle, ViewStyle } from 'react-native';
+
 import colors from './colors';
 
 const text: {

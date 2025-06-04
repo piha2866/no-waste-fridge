@@ -1,10 +1,11 @@
-import React from 'react';
-import { TouchableOpacity, StyleSheet, Text } from 'react-native';
-import colors from '../../styles/colors';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import React from 'react';
+import { StyleSheet, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+
 import { StackParamList } from '../../navigation/AppNavigator';
+import colors from '../../styles/colors';
 
 type NavigationProp = NativeStackNavigationProp<StackParamList>;
 

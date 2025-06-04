@@ -1,13 +1,14 @@
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import {
-  TouchableOpacity,
-  StyleSheet,
   GestureResponderEvent,
-  ViewStyle,
   StyleProp,
+  StyleSheet,
+  TouchableOpacity,
+  ViewStyle,
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+
 import colors from '../styles/colors';
 
 export const BackButton = (props: any) => {

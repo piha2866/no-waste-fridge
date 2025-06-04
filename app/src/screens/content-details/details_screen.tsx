@@ -1,9 +1,10 @@
-import React from 'react';
-import { View, Text, StyleSheet, useWindowDimensions, Image, TextInput } from 'react-native';
-import { BackButton, IconButton } from '../../components/buttons';
-import text from '../../styles/text';
-import container from '../../styles/container';
 import { useNavigation } from '@react-navigation/native';
+import React from 'react';
+import { Image, StyleSheet, Text, TextInput, useWindowDimensions, View } from 'react-native';
+
+import { IconButton } from '../../components/buttons';
+import container from '../../styles/container';
+import text from '../../styles/text';
 
 const DetailsScreen = () => {
   const { width, height } = useWindowDimensions();
@@ -23,6 +24,7 @@ const DetailsScreen = () => {
         </View>
         <View style={styles.middle}>
           <Image
+            // eslint-disable-next-line @typescript-eslint/no-require-imports
             source={require('../../assets/images/default-food.png')}
             style={styles.image}
             resizeMode="contain"

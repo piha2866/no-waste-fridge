@@ -1,13 +1,6 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  Image,
-  FlatList,
-  StyleSheet,
-  useWindowDimensions,
-  ScrollView,
-} from 'react-native';
+import { ScrollView, StyleSheet, useWindowDimensions } from 'react-native';
+
 import { Content } from './content';
 
 export default function ContentGrid(props: any): React.JSX.Element {

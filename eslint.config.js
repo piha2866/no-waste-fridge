@@ -55,6 +55,7 @@ export default [
       //Import export sorting
       'simple-import-sort/imports': 'error',
       'simple-import-sort/exports': 'error',
+      'unused-imports/no-unused-imports': 'error',
     },
     settings: {
       react: {
