@@ -4,11 +4,11 @@ const tableName = 'notes';
 
 enablePromise(true);
 
-export const getDBConnection = async () => {
+export const getDBConnection = async (): Promise<SQLiteDatabase> => {
   return openDatabase({ name: 'fridge.db', location: 'default' });
 };
 
-export const createTable = async (db: SQLiteDatabase) => {
+export const createTable = async (db: SQLiteDatabase): Promise<void> => {
   const query = `CREATE TABLE IF NOT EXISTS ${tableName} (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     title TEXT NOT NULL,
