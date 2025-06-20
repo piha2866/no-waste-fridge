@@ -10,7 +10,9 @@
     "lint:fix": "eslint . --fix",
     "start": "react-native start",
     "clean-start": "react-native start --reset-cache",
-    "test": "jest"
+    "test": "jest",
+    "detox:build": "cd android && ./gradlew assembleDebug assembleAndroidTest -DtestBuildType=debug",
+    "detox:test": "detox test --configuration android.emu.debug"
   },
   "dependencies": {
     "@react-native-community/datetimepicker": "^8.4.1",
