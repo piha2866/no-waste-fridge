@@ -5,7 +5,7 @@ import colors from '../../styles/colors';
 
 export function Content(props: any): React.JSX.Element {
   return (
-    <TouchableOpacity style={styles.contentContainer}>
+    <TouchableOpacity style={styles.contentContainer} testID={`note-${props.index}`}>
       <Image
         // eslint-disable-next-line @typescript-eslint/no-require-imports
         source={require('../../assets/images/default-food.png')}

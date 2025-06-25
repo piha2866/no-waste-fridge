@@ -15,7 +15,12 @@ export default function ContentCreationButton(props: any): React.JSX.Element {
     navigation.navigate('Details');
   };
   return (
-    <TouchableOpacity style={styles.overlayButton} onPress={handlePress} id="add-content-button">
+    <TouchableOpacity
+      style={styles.overlayButton}
+      onPress={handlePress}
+      id="add-content-button"
+      testID="add-content-button"
+    >
       <Icon name="add" size={32} color={colors.background} />
     </TouchableOpacity>
   );

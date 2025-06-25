@@ -19,7 +19,11 @@ const DetailsScreen = () => {
   return (
     <View style={{ ...container.main, paddingVertical: height * 0.05 }}>
       <View style={styles.imageIconsContainer}>
-        <View style={styles.left}>
+        <View
+          style={styles.left}
+          testID="content-details-back-button"
+          id="content-details-back-button"
+        >
           <IconButton iconName="arrow-back" onPress={handleBack} />
         </View>
         <View style={styles.middle}>

@@ -1,21 +1,23 @@
 import { device, expect, element, by } from 'detox';
 
-describe('Example', () => {
-  beforeAll(async () => {});
-
-  beforeEach(async () => {
+describe('proper home screen', () => {
+  beforeAll(async () => {
     await device.launchApp({ newInstance: true });
   });
 
-  it('should test something', async () => {
-    await expect(element(by.text('Your fridges content')));
-  });
+  beforeEach(async () => {});
 
-  it('should test something 2', async () => {
-    await expect(element(by.text('Your fridges content'))).toExist();
-  });
-
-  it('should test something 3', async () => {
+  it('should show title', async () => {
     await expect(element(by.text('Your fridges content'))).toBeVisible();
+  });
+
+  it('should show notes saved in db', async () => {
+    await expect(element(by.id('note-1'))).toBeVisible();
+  });
+
+  it('should have add button going to content-details screen', async () => {
+    await expect(element(by.id('add-content-button'))).toBeVisible();
+    await element(by.id('add-content-button')).tap();
+    await expect(element(by.id('content-details-back-button'))).toBeVisible();
   });
 });

@@ -11,7 +11,7 @@ export default function ContentGrid(props: any): React.JSX.Element {
       contentContainerStyle={{ ...styles.contentWrapper, paddingBottom: height * 0.2 }}
     >
       {props.items.map((item: string, index: number) => (
-        <Content name={item} key={index} />
+        <Content name={item} index={index} key={index} />
       ))}
     </ScrollView>
   );
