@@ -1,23 +1,21 @@
+import { device, expect, element, by } from 'detox';
+
 describe('Example', () => {
-  beforeAll(async () => {
-    await device.launchApp();
-  });
+  beforeAll(async () => {});
 
   beforeEach(async () => {
-    await device.reloadReactNative();
+    await device.launchApp({ newInstance: true });
   });
 
-  it('should have welcome screen', async () => {
-    await expect(element(by.id('welcome'))).toBeVisible();
+  it('should test something', async () => {
+    await expect(element(by.text('Your fridges content')));
   });
 
-  it('should show hello screen after tap', async () => {
-    await element(by.id('hello_button')).tap();
-    await expect(element(by.text('Hello!!!'))).toBeVisible();
+  it('should test something 2', async () => {
+    await expect(element(by.text('Your fridges content'))).toExist();
   });
 
-  it('should show world screen after tap', async () => {
-    await element(by.id('world_button')).tap();
-    await expect(element(by.text('World!!!'))).toBeVisible();
+  it('should test something 3', async () => {
+    await expect(element(by.text('Your fridges content'))).toBeVisible();
   });
 });

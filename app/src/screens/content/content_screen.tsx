@@ -24,7 +24,7 @@ const ContentScreen = ({}) => {
   return (
     <View style={{ ...container.main, paddingVertical: height * 0.05 }}>
       <View style={styles.contentGridContainer}>
-        <Text style={{ ...styles.sectionTitle, paddingVertical: height * 0.05 }}>
+        <Text style={{ ...styles.sectionTitle, paddingVertical: height * 0.05 }} id="content-title">
           Your fridges content
         </Text>
         <ContentGrid items={notes.map((note) => note.title)} />

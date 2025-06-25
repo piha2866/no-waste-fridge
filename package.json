@@ -11,7 +11,8 @@
     "start": "react-native start",
     "clean-start": "react-native start --reset-cache",
     "test": "jest",
-    "detox:build": "cd android && ./gradlew assembleDebug assembleAndroidTest -DtestBuildType=debug",
+    "detox:build": "detox build --configuration android.emu.debug",
+    "detox:rebuild": "cd android && ./gradlew clean && ./gradlew assembleDebug assembleAndroidTest -DtestBuildType=debug",
     "detox:test": "detox test --configuration android.emu.debug"
   },
   "dependencies": {
@@ -25,7 +26,7 @@
     "eslint-plugin-simple-import-sort": "^12.1.1",
     "eslint-plugin-unused-imports": "^4.1.4",
     "react": "19.0.0",
-    "react-native": "0.76.0",
+    "react-native": "0.78.0",
     "react-native-gesture-handler": "^2.25.0",
     "react-native-reanimated": "^3.17.4",
     "react-native-safe-area-context": "^5.4.0",

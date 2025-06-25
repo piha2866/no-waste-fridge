@@ -37,7 +37,7 @@ const DetailsScreen = () => {
         </View>
       </View>
       <View>
-        <TextInput style={styles.title} placeholder="Title" />
+        <TextInput style={styles.title} placeholder="Title" id="content-details-title" />
         <TextInput placeholder="Description" />
       </View>
       <View style={{ flexGrow: 1 }} />
