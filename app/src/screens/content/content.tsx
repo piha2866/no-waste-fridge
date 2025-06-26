@@ -1,11 +1,26 @@
 import React from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity } from 'react-native';
 
+import { Note } from '../../backend/db/types';
+import { useTypedNavigation } from '../../navigation/AppNavigator';
 import colors from '../../styles/colors';
 
-export function Content(props: any): React.JSX.Element {
+interface ContentProps {
+  note: Note;
+  index: number;
+}
+
+export function Content({ note, index }: ContentProps): React.JSX.Element {
+  const navigation = useTypedNavigation();
+  const handlePress = (): void => {
+    navigation.navigate('Details', { note });
+  };
   return (
-    <TouchableOpacity style={styles.contentContainer} testID={`note-${props.index}`}>
+    <TouchableOpacity
+      style={styles.contentContainer}
+      onPress={handlePress}
+      testID={`note-${index}`}
+    >
       <Image
         // eslint-disable-next-line @typescript-eslint/no-require-imports
         source={require('../../assets/images/default-food.png')}
@@ -13,7 +28,7 @@ export function Content(props: any): React.JSX.Element {
         resizeMode="contain"
       />
       <Text style={styles.text} numberOfLines={1}>
-        {props.name}
+        {note.title}
       </Text>
     </TouchableOpacity>
   );

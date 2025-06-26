@@ -3,22 +3,19 @@ import React from 'react';
 import { Image, StyleSheet, Text, TextInput, useWindowDimensions, View } from 'react-native';
 
 import { deleteNote } from '../../backend/db/notes/delete';
-import { Note } from '../../backend/db/types';
 import { IconButton } from '../../components/buttons';
 import { useDatabase } from '../../context/db';
 import container from '../../styles/container';
 import text from '../../styles/text';
 
-interface DetailsScreenProps {
-  note?: Note;
-}
-
-const DetailsScreen = ({ note }: DetailsScreenProps) => {
+const DetailsScreen = ({ route }: any) => {
+  const { note } = route.params || {};
   const { db } = useDatabase();
   const { width, height } = useWindowDimensions();
   const navigation = useNavigation();
 
   const handleBack = () => {
+    console.log('route params!', route.params);
     navigation.goBack();
   };
   const handleDelete = async () => {
@@ -55,12 +52,14 @@ const DetailsScreen = ({ note }: DetailsScreenProps) => {
       <View>
         <TextInput
           style={styles.title}
+          value={note?.title}
           placeholder="Title"
           id="content_details_title_field"
           testID="content_details_title_field"
         />
         <TextInput
           placeholder="Description"
+          value={note?.description}
           id="content_details_description_field"
           testID="content_details_description_field"
         />
@@ -71,6 +70,7 @@ const DetailsScreen = ({ note }: DetailsScreenProps) => {
           <Text style={styles.standard}>Opening date</Text>
           <TextInput
             placeholder="DD.MM.YYYY"
+            value={note?.opening_date}
             testID="content_details_opening_date_input_field"
             id="content_details_opening_date_input_field"
           />
@@ -80,6 +80,7 @@ const DetailsScreen = ({ note }: DetailsScreenProps) => {
           <Text style={styles.standard}>Expiration date</Text>
           <TextInput
             placeholder="DD.MM.YYYY"
+            value={note?.expiration_date}
             id="content_details_opening_date_input_field"
             testID="content_details_opening_date_input_field"
           />

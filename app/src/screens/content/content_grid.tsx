@@ -1,17 +1,22 @@
 import React from 'react';
 import { ScrollView, StyleSheet, useWindowDimensions } from 'react-native';
 
+import { Note } from '../../backend/db/types';
 import { Content } from './content';
 
-export default function ContentGrid(props: any): React.JSX.Element {
+interface ContentGridProps {
+  notes: Note[];
+}
+
+export default function ContentGrid({ notes }: ContentGridProps): React.JSX.Element {
   const { width, height } = useWindowDimensions();
   return (
     <ScrollView
       style={styles.scrollView}
       contentContainerStyle={{ ...styles.contentWrapper, paddingBottom: height * 0.2 }}
     >
-      {props.items.map((item: string, index: number) => (
-        <Content name={item} index={index} key={index} />
+      {notes.map((note: Note, index: number) => (
+        <Content key={index} note={note} index={index} />
       ))}
     </ScrollView>
   );

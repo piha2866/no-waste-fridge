@@ -1,3 +1,4 @@
+import { useFocusEffect } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 
@@ -14,13 +15,23 @@ const ContentScreen = ({}) => {
   const [notes, setNotes] = useState<Note[]>([]);
 
   const establishDBConnection = async (): Promise<void> => {
-    if (!db) return;
     const data = await selectNotes(db);
     setNotes(data);
   };
+
+  const fetchNotes = async (): Promise<void> => {
+    const data = await selectNotes(db);
+    setNotes(data);
+  };
+
   useEffect(() => {
     void establishDBConnection();
   }, []);
+
+  useFocusEffect(() => {
+    void fetchNotes(); // refresh data when screen comes into focus
+  });
+
   const { width, height } = useWindowDimensions();
   return (
     <View style={{ ...container.main, paddingVertical: height * 0.05 }}>
@@ -32,7 +43,7 @@ const ContentScreen = ({}) => {
         >
           Your fridges content
         </Text>
-        <ContentGrid items={notes.map((note) => note.title)} />
+        <ContentGrid notes={notes} />
       </View>
       <ContentCreationButton />
       {}
