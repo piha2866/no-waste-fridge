@@ -1,19 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 
-import { initializeDB } from '../../backend/db/main';
 import { selectNotes } from '../../backend/db/notes/select';
 import { Note } from '../../backend/db/types';
+import { useDatabase } from '../../context/db';
 import container from '../../styles/container';
 import text from '../../styles/text';
 import ContentCreationButton from './content_creation_button';
 import ContentGrid from './content_grid';
 
 const ContentScreen = ({}) => {
+  const { db } = useDatabase();
   const [notes, setNotes] = useState<Note[]>([]);
 
-  const establishDBConnection = async () => {
-    const db = await initializeDB();
+  const establishDBConnection = async (): Promise<void> => {
+    if (!db) return;
     const data = await selectNotes(db);
     setNotes(data);
   };
