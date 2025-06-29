@@ -2,7 +2,7 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import { ActivityIndicator, Button, Text, View } from 'react-native';
 import { SQLiteDatabase } from 'react-native-sqlite-storage';
 
-import { getDBConnection } from '../backend/db/main';
+import { initializeDB } from '../backend/db/main';
 
 type DatabaseContextType = {
   db: SQLiteDatabase;
@@ -20,7 +20,7 @@ export const DatabaseProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     setLoading(true);
     setError(null);
     try {
-      const dbInstance = await getDBConnection();
+      const dbInstance = await initializeDB();
       setDb(dbInstance);
     } catch (err) {
       console.error('DB open error:', err);

@@ -1,5 +1,5 @@
 import { useFocusEffect } from '@react-navigation/native';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 
 import { selectNotes } from '../../backend/db/notes/select';
@@ -14,19 +14,10 @@ const ContentScreen = ({}) => {
   const { db } = useDatabase();
   const [notes, setNotes] = useState<Note[]>([]);
 
-  const establishDBConnection = async (): Promise<void> => {
-    const data = await selectNotes(db);
-    setNotes(data);
-  };
-
   const fetchNotes = async (): Promise<void> => {
     const data = await selectNotes(db);
     setNotes(data);
   };
-
-  useEffect(() => {
-    void establishDBConnection();
-  }, []);
 
   useFocusEffect(() => {
     void fetchNotes(); // refresh data when screen comes into focus
