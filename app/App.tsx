@@ -1,12 +1,16 @@
-import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import {AppNavigator} from './src/navigation/AppNavigator';
+import React from 'react';
+
+import { DatabaseProvider } from './src/context/db';
+import { AppNavigator } from './src/navigation/AppNavigator';
 
 const App = () => {
   return (
-    <NavigationContainer>
-      <AppNavigator />
-    </NavigationContainer>
+    <DatabaseProvider>
+      <NavigationContainer>
+        <AppNavigator />
+      </NavigationContainer>
+    </DatabaseProvider>
   );
 };
 
