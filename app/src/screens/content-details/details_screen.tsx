@@ -1,9 +1,10 @@
 import { useNavigation } from '@react-navigation/native';
 import React from 'react';
-import { Image, StyleSheet, Text, TextInput, useWindowDimensions, View } from 'react-native';
+import { Image, StyleSheet, TextInput, useWindowDimensions, View } from 'react-native';
 
 import { deleteNote } from '../../backend/db/notes/delete';
 import { IconButton } from '../../components/buttons';
+import DateTimePickerCombiField from '../../components/date_time_picker_combi_field';
 import { useDatabase } from '../../context/db';
 import container from '../../styles/container';
 import text from '../../styles/text';
@@ -27,6 +28,7 @@ const DetailsScreen = ({ route }: any) => {
   };
   const handleClone = () => console.log('Go to cloning edit page?');
   const handleReset = () => console.log('Set dates to now');
+
   return (
     <View style={{ ...container.main, paddingVertical: height * 0.05 }}>
       <View style={styles.imageIconsContainer}>
@@ -65,24 +67,19 @@ const DetailsScreen = ({ route }: any) => {
         />
       </View>
       <View style={{ flexGrow: 1 }} />
-      <View
-        style={styles.detailsContainer}
-        testID="content_details_opening_date_input_field"
-        id="content_details_opening_date_input_field"
-      >
-        <View style={styles.dateView}>
-          <Text style={styles.standard}>Opening date</Text>
-          <TextInput placeholder="DD.MM.YYYY" value={note?.opening_date} />
-        </View>
-
-        <View
-          style={styles.dateView}
+      <View style={styles.detailsContainer}>
+        <DateTimePickerCombiField
+          name="Opening date"
+          value={note?.opening_date}
+          testId="content_details_opening_date_input_field"
+          id="content_details_opening_date_input_field"
+        />
+        <DateTimePickerCombiField
+          name="Expiration date"
+          value={note?.expiration_date}
           id="content_details_expiration_date_input_field"
-          testID="content_details_expiration_date_input_field"
-        >
-          <Text style={styles.standard}>Expiration date</Text>
-          <TextInput placeholder="DD.MM.YYYY" value={note?.expiration_date} />
-        </View>
+          testId="content_details_expiration_date_input_field"
+        />
       </View>
     </View>
   );
