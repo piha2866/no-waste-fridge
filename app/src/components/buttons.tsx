@@ -41,7 +41,12 @@ export const IconButton = ({
   style = styles.button,
 }: IconButtonProps) => {
   return (
-    <TouchableOpacity onPress={onPress} style={style}>
+    <TouchableOpacity
+      onPress={onPress}
+      style={style}
+      id={`${iconName}-button`}
+      testID={`${iconName}-button`}
+    >
       <Icon name={iconName} size={size} color={color} />
     </TouchableOpacity>
   );

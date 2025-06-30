@@ -39,8 +39,8 @@ const DetailsScreen = ({ route }: any) => {
             source={require('../../assets/images/default-food.png')}
             style={styles.image}
             resizeMode="contain"
-            id="content-details-image"
-            testID="content-details-image"
+            id="content_details_image"
+            testID="content_details_image"
           />
         </View>
         <View style={styles.right}>
@@ -65,25 +65,23 @@ const DetailsScreen = ({ route }: any) => {
         />
       </View>
       <View style={{ flexGrow: 1 }} />
-      <View style={styles.detailsContaienr}>
+      <View
+        style={styles.detailsContainer}
+        testID="content_details_opening_date_input_field"
+        id="content_details_opening_date_input_field"
+      >
         <View style={styles.dateView}>
           <Text style={styles.standard}>Opening date</Text>
-          <TextInput
-            placeholder="DD.MM.YYYY"
-            value={note?.opening_date}
-            testID="content_details_opening_date_input_field"
-            id="content_details_opening_date_input_field"
-          />
+          <TextInput placeholder="DD.MM.YYYY" value={note?.opening_date} />
         </View>
 
-        <View style={styles.dateView}>
+        <View
+          style={styles.dateView}
+          id="content_details_expiration_date_input_field"
+          testID="content_details_expiration_date_input_field"
+        >
           <Text style={styles.standard}>Expiration date</Text>
-          <TextInput
-            placeholder="DD.MM.YYYY"
-            value={note?.expiration_date}
-            id="content_details_opening_date_input_field"
-            testID="content_details_opening_date_input_field"
-          />
+          <TextInput placeholder="DD.MM.YYYY" value={note?.expiration_date} />
         </View>
       </View>
     </View>
@@ -129,7 +127,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     display: 'flex',
   },
-  detailsContaienr: {
+  detailsContainer: {
     display: 'flex',
     justifyContent: 'space-around',
     flexDirection: 'row',

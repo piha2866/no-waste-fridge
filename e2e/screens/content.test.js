@@ -18,6 +18,16 @@ describe('proper home screen', () => {
   it('should have add button going to content-details screen', async () => {
     await expect(element(by.id('add-content-button'))).toBeVisible();
     await element(by.id('add-content-button')).tap();
-    await expect(element(by.id('content-details-back-button'))).toBeVisible();
+    await expect(element(by.id('arrow-back-button'))).toBeVisible();
+  });
+});
+
+describe('delete note', () => {
+  beforeAll(async () => {
+    await device.launchApp({ newInstance: true });
+  });
+
+  it('should delete note using detail-screens trashbin', async () => {
+    await expect(element(by.id('note-1'))).toBeVisible();
   });
 });

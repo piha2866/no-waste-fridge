@@ -19,6 +19,7 @@ export function Content({ note, index }: ContentProps): React.JSX.Element {
     <TouchableOpacity
       style={styles.contentContainer}
       onPress={handlePress}
+      id={`note-${index}`}
       testID={`note-${index}`}
     >
       <Image
