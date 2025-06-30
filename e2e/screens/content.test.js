@@ -28,6 +28,9 @@ describe('delete note', () => {
   });
 
   it('should delete note using detail-screens trashbin', async () => {
-    await expect(element(by.id('note-1'))).toBeVisible();
+    await element(by.text('Ideas')).tap();
+    await element(by.id('delete-button')).tap();
+    await expect(element(by.text('Groceries'))).toBeVisible();
+    await expect(element(by.text('Ideas'))).not.toBeVisible();
   });
 });

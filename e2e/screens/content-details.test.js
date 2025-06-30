@@ -16,6 +16,7 @@ describe('content_details_screen', () => {
     await expect(element(by.id('content_details_description_field'))).toBeVisible();
     await expect(element(by.id('content_details_opening_date_input_field'))).toBeVisible();
     await expect(element(by.id('content_details_expiration_date_input_field'))).toBeVisible();
+    await element(by.id('arrow-back-button')).tap();
   });
 
   it('should show all elements (including content editing buttons)', async () => {
