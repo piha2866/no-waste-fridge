@@ -89,7 +89,6 @@ export default DetailsScreen;
 
 const styles = StyleSheet.create({
   title: { ...text.title },
-  standard: { ...text.standard },
   image: {
     flex: 1,
   },
