@@ -14,8 +14,10 @@ describe('content_details_screen', () => {
 
     await expect(element(by.id('content_details_title_field'))).toBeVisible();
     await expect(element(by.id('content_details_description_field'))).toBeVisible();
-    await expect(element(by.id('content_details_opening_date_input_field'))).toBeVisible();
-    await expect(element(by.id('content_details_expiration_date_input_field'))).toBeVisible();
+    await expect(element(by.id('content_details_opening_date_button'))).toBeVisible();
+    await expect(element(by.id('content_details_opening_date_output'))).toBeVisible();
+    await expect(element(by.id('content_details_expiration_date_button'))).toBeVisible();
+    await expect(element(by.id('content_details_expiration_date_output'))).toBeVisible();
     await element(by.id('arrow-back-button')).tap();
   });
 
@@ -29,8 +31,18 @@ describe('content_details_screen', () => {
 
     await expect(element(by.id('content_details_title_field'))).toBeVisible();
     await expect(element(by.id('content_details_description_field'))).toBeVisible();
-    await expect(element(by.id('content_details_opening_date_input_field'))).toBeVisible();
-    await expect(element(by.id('content_details_expiration_date_input_field'))).toBeVisible();
+    await expect(element(by.id('content_details_opening_date_button'))).toBeVisible();
+    await expect(element(by.id('content_details_opening_date_output'))).toBeVisible();
+    await expect(element(by.id('content_details_expiration_date_button'))).toBeVisible();
+    await expect(element(by.id('content_details_expiration_date_output'))).toBeVisible();
     await element(by.id('arrow-back-button')).tap();
+  });
+
+  it('should enable editing of opening date using datetimepicker', async () => {
+    await element(by.id('note-1')).tap();
+    await element(by.id('content_details_opening_date_button')).tap();
+    await expect(element(by.id('content_details_opening_date_spinner'))).toBeVisible();
+    await element(by.text('OK')).tap();
+    await expect(element(by.id('content_details_opening_date_spinner'))).not.toBeVisible();
   });
 });

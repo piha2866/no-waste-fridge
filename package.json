@@ -10,7 +10,7 @@
     "lint:fix": "eslint . --fix",
     "start": "react-native start",
     "clean-start": "react-native start --reset-cache",
-    "test": "jest",
+    "test": "jest --testPathIgnorePatterns=e2e",
     "detox:build": "detox build --configuration android.emu.debug",
     "detox:rebuild": "cd android && ./gradlew clean && ./gradlew assembleDebug assembleAndroidTest -DtestBuildType=debug",
     "detox:test": "detox test --configuration android.emu.debug"
@@ -46,6 +46,8 @@
     "@react-native/eslint-config": "0.78.0",
     "@react-native/metro-config": "0.78.0",
     "@react-native/typescript-config": "0.78.0",
+    "@testing-library/jest-native": "^5.4.3",
+    "@testing-library/react-native": "^13.2.0",
     "@types/jest": "^29.5.13",
     "@types/react": "^19.0.0",
     "@types/react-native-sqlite-storage": "^6.0.5",

@@ -7,16 +7,22 @@ import text from '../styles/text';
 interface DateTimePickerCombiFieldProps {
   name: string;
   value: string;
-  testId?: string;
-  id?: string;
+  testId: string;
+  id: string;
 }
 
-function formatDateToDDMMYYYY(date: Date): string {
-  const day = String(date.getDate()).padStart(2, '0'); // Ensure 2 digits
-  const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
-  const year = date.getFullYear();
-
-  return `${day}-${month}-${year}`;
+export function formatDateToDDMMYYYY(date: Date): string {
+  try {
+    const day = String(date.getDate()).padStart(2, '0'); // Ensure 2 digits
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
+    const year = date.getFullYear();
+    if (day === 'NaN') throw Error('Invalid date');
+    return `${day}-${month}-${year}`;
+  } catch (error) {
+    console.log('DATEE', date);
+    console.log(error);
+    return '';
+  }
 }
 
 export default function DateTimePickerCombiField({
@@ -29,16 +35,16 @@ export default function DateTimePickerCombiField({
   const [date, setDate] = useState(new Date(value || new Date()));
 
   const handleChange = (_event: any, selectedDate?: Date): void => {
+    setShow(false);
     if (selectedDate) {
       setDate(selectedDate);
-      setShow(false);
     }
   };
   return (
-    <View style={styles.dateView} id={id} testID={testId}>
+    <View style={styles.dateView} id={id} testID={`${testId}_button`}>
       <TouchableOpacity onPress={() => setShow(true)}>
         <Text style={styles.standard}>{name}</Text>
-        <Text>{formatDateToDDMMYYYY(date)}</Text>
+        <Text testID={`${testId}_output`}>{formatDateToDDMMYYYY(date)}</Text>
       </TouchableOpacity>
       {show && (
         <RNDateTimePicker
@@ -46,7 +52,7 @@ export default function DateTimePickerCombiField({
           display="spinner"
           value={date}
           onChange={handleChange}
-          testID="datetimepicker_spinner"
+          testID={`${testId}_spinner`}
         />
       )}
     </View>
