@@ -11,3 +11,9 @@ export const selectNotes = async (
   const [data] = await db.executeSql(query);
   return data.rows.raw() as Note[];
 };
+
+export const selectNote = async (db: SQLiteDatabase, id: string | number): Promise<Note> => {
+  const query = `Select * from notes where id = ?;`;
+  const [data] = await db.executeSql(query, [id]);
+  return data.rows.item(0) as Note;
+};
