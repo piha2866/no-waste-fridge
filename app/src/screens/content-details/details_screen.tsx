@@ -71,14 +71,14 @@ const DetailsScreen = ({ route }: any) => {
         <DateTimePickerCombiField
           name="Opening date"
           value={note?.opening_date}
-          testId="content_details_opening_date_input_field"
-          id="content_details_opening_date_input_field"
+          testId="content_details_opening_date"
+          id="content_details_opening_date"
         />
         <DateTimePickerCombiField
           name="Expiration date"
           value={note?.expiration_date}
-          id="content_details_expiration_date_input_field"
-          testId="content_details_expiration_date_input_field"
+          id="content_details_expiration_date"
+          testId="content_details_expiration_date"
         />
       </View>
     </View>
