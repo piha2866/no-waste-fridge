@@ -1,8 +1,18 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
-import { Image, StyleSheet, TextInput, useWindowDimensions, View } from 'react-native';
+import {
+  Image,
+  NativeSyntheticEvent,
+  StyleSheet,
+  TextInput,
+  TextInputFocusEventData,
+  useWindowDimensions,
+  View,
+} from 'react-native';
 
 import { deleteNote } from '../../backend/db/notes/delete';
+import { insertNote } from '../../backend/db/notes/insert';
+import { updateNote } from '../../backend/db/notes/update';
 import { Note } from '../../backend/db/types';
 import { IconButton } from '../../components/buttons';
 import DateTimePickerCombiField from '../../components/date_time_picker_combi_field';
@@ -18,6 +28,20 @@ const DetailsScreen = ({ route }: any) => {
   const { note: passedNote } = route.params || {};
   const [note, setNote] = useState<Note>(passedNote || {});
 
+  const [title, setTitle] = useState<string>(note.title);
+  const handleTitleChange = async (_event: NativeSyntheticEvent<TextInputFocusEventData>) => {
+    const newNote = { ...note, title };
+    const savedNote = note.id ? await updateNote(db, newNote) : await insertNote(db, newNote);
+    setNote(savedNote);
+  };
+
+  const [description, setDescription] = useState<string>(note.description);
+  const handleDescriptionChange = async (_event: NativeSyntheticEvent<TextInputFocusEventData>) => {
+    const newNote = { ...note, description };
+    const savedNote = note.id ? await updateNote(db, newNote) : await insertNote(db, newNote);
+    setNote(savedNote);
+  };
+
   const [openingDate, setOpeningDate] = useState(new Date(note?.opening_date || new Date()));
   const [expirationDate, setExpirationDate] = useState(
     new Date(note?.expiration_date || new Date()),
@@ -28,7 +52,7 @@ const DetailsScreen = ({ route }: any) => {
     navigation.goBack();
   };
   const handleDelete = async () => {
-    if (!note) return;
+    if (!note.id) return;
     console.log('Sure you want to delete?');
     await deleteNote(db, note.id);
     console.log('deleted');
@@ -62,16 +86,20 @@ const DetailsScreen = ({ route }: any) => {
       <View>
         <TextInput
           style={styles.title}
-          value={note?.title}
+          value={title}
           placeholder="Title"
           id="content_details_title_field"
           testID="content_details_title_field"
+          onChangeText={setTitle}
+          onBlur={(t) => handleTitleChange(t)}
         />
         <TextInput
           placeholder="Description"
-          value={note?.description}
+          value={description}
           id="content_details_description_field"
           testID="content_details_description_field"
+          onChangeText={setDescription}
+          onBlur={(t) => handleDescriptionChange(t)}
         />
       </View>
       <View style={{ flexGrow: 1 }} />
