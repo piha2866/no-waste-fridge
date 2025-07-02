@@ -7,19 +7,20 @@ import text from '../styles/text';
 
 interface DateTimePickerCombiFieldProps {
   name: string;
-  value: string;
+  date: Date;
   testId: string;
   id: string;
+  setDate: (date: Date) => void;
 }
 
 export default function DateTimePickerCombiField({
   name,
-  value,
+  date,
   id,
   testId,
+  setDate,
 }: DateTimePickerCombiFieldProps): React.JSX.Element {
   const [show, setShow] = useState(false);
-  const [date, setDate] = useState(new Date(value || new Date()));
 
   const handleChange = (_event: any, selectedDate?: Date): void => {
     setShow(false);

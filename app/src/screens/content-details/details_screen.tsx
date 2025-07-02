@@ -1,8 +1,9 @@
 import { useNavigation } from '@react-navigation/native';
-import React from 'react';
+import React, { useState } from 'react';
 import { Image, StyleSheet, TextInput, useWindowDimensions, View } from 'react-native';
 
 import { deleteNote } from '../../backend/db/notes/delete';
+import { Note } from '../../backend/db/types';
 import { IconButton } from '../../components/buttons';
 import DateTimePickerCombiField from '../../components/date_time_picker_combi_field';
 import { useDatabase } from '../../context/db';
@@ -10,10 +11,17 @@ import container from '../../styles/container';
 import text from '../../styles/text';
 
 const DetailsScreen = ({ route }: any) => {
-  const { note } = route.params || {};
   const { db } = useDatabase();
   const { width, height } = useWindowDimensions();
   const navigation = useNavigation();
+
+  const { note: passedNote } = route.params || {};
+  const [note, setNote] = useState<Note>(passedNote || {});
+
+  const [openingDate, setOpeningDate] = useState(new Date(note?.opening_date || new Date()));
+  const [expirationDate, setExpirationDate] = useState(
+    new Date(note?.expiration_date || new Date()),
+  );
 
   const handleBack = () => {
     console.log('route params!', route.params);
@@ -70,15 +78,17 @@ const DetailsScreen = ({ route }: any) => {
       <View style={styles.detailsContainer}>
         <DateTimePickerCombiField
           name="Opening date"
-          value={note?.opening_date}
+          date={openingDate}
           testId="content_details_opening_date"
           id="content_details_opening_date"
+          setDate={setOpeningDate}
         />
         <DateTimePickerCombiField
           name="Expiration date"
-          value={note?.expiration_date}
+          date={expirationDate}
           id="content_details_expiration_date"
           testId="content_details_expiration_date"
+          setDate={setExpirationDate}
         />
       </View>
     </View>
