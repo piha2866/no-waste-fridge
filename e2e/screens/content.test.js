@@ -1,4 +1,5 @@
 import { device, expect, element, by } from 'detox';
+import { formatDateToDDMMYYYY } from '../../app/src/components/date_time_picker_combi_field';
 
 describe('proper home screen', () => {
   beforeAll(async () => {
@@ -32,5 +33,36 @@ describe('delete note', () => {
     await element(by.id('delete-button')).tap();
     await expect(element(by.text('Groceries'))).toBeVisible();
     await expect(element(by.text('Ideas'))).not.toBeVisible();
+  });
+});
+
+describe('insert note', () => {
+  it.only('should be able to add a note from scratch', async () => {
+    const title = 'Test Note';
+    const desc = 'This is a test note.';
+    const date = new Date();
+    const openingDate = formatDateToDDMMYYYY(date);
+    date.setFullYear(date.getFullYear() + 1);
+    const expirationDate = formatDateToDDMMYYYY(date);
+    await expect(element(by.text(title))).not.toBeVisible();
+    await expect(element(by.text(desc))).not.toBeVisible();
+    await element(by.id('add-content-button')).tap();
+    await element(by.id('content_details_title_field')).typeText(title);
+    await element(by.id('content_details_description_field')).typeText(desc);
+    await element(by.id('content_details_opening_date_button')).tap();
+    await element(by.text('OK')).tap();
+    await expect(element(by.text(title))).toBeVisible();
+    await expect(element(by.text(desc))).toBeVisible();
+    await expect(element(by.text(openingDate))).toBeVisible();
+    await expect(element(by.text(expirationDate))).toBeVisible();
+    await element(by.id('arrow-back-button')).tap();
+
+    await expect(element(by.text(title))).toBeVisible();
+    await element(by.text(title)).tap();
+
+    await expect(element(by.text(title))).toBeVisible();
+    await expect(element(by.text(desc))).toBeVisible();
+    await expect(element(by.text(openingDate))).toBeVisible();
+    await expect(element / by.text(expirationDate)).toBeVisible();
   });
 });
