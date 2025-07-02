@@ -1,5 +1,5 @@
 import { device, expect, element, by } from 'detox';
-import { formatDateToDDMMYYYY } from '../../app/src/components/date_time_picker_combi_field';
+import { formatDateToDDMMYYYY } from '../../app/utils/date_formatting';
 
 describe('proper home screen', () => {
   beforeAll(async () => {
@@ -37,6 +37,10 @@ describe('delete note', () => {
 });
 
 describe('insert note', () => {
+  beforeAll(async () => {
+    await device.launchApp({ newInstance: true });
+  });
+
   it.only('should be able to add a note from scratch', async () => {
     const title = 'Test Note';
     const desc = 'This is a test note.';
@@ -49,7 +53,7 @@ describe('insert note', () => {
     await element(by.id('add-content-button')).tap();
     await element(by.id('content_details_title_field')).typeText(title);
     await element(by.id('content_details_description_field')).typeText(desc);
-    await element(by.id('content_details_opening_date_button')).tap();
+    await element(by.id('content_details_expiration_date_button')).tap();
     await element(by.text('OK')).tap();
     await expect(element(by.text(title))).toBeVisible();
     await expect(element(by.text(desc))).toBeVisible();
@@ -63,6 +67,6 @@ describe('insert note', () => {
     await expect(element(by.text(title))).toBeVisible();
     await expect(element(by.text(desc))).toBeVisible();
     await expect(element(by.text(openingDate))).toBeVisible();
-    await expect(element / by.text(expirationDate)).toBeVisible();
+    await expect(element(by.text(expirationDate))).toBeVisible();
   });
 });

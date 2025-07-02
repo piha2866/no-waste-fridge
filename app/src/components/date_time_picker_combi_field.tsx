@@ -2,6 +2,7 @@ import RNDateTimePicker from '@react-native-community/datetimepicker';
 import React, { useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
+import { formatDateToDDMMYYYY } from '../../utils/date_formatting';
 import text from '../styles/text';
 
 interface DateTimePickerCombiFieldProps {
@@ -9,20 +10,6 @@ interface DateTimePickerCombiFieldProps {
   value: string;
   testId: string;
   id: string;
-}
-
-export function formatDateToDDMMYYYY(date: Date): string {
-  try {
-    const day = String(date.getDate()).padStart(2, '0'); // Ensure 2 digits
-    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
-    const year = date.getFullYear();
-    if (day === 'NaN') throw Error('Invalid date');
-    return `${day}-${month}-${year}`;
-  } catch (error) {
-    console.log('DATEE', date);
-    console.log(error);
-    return '';
-  }
 }
 
 export default function DateTimePickerCombiField({
