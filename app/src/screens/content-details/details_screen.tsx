@@ -10,6 +10,7 @@ import {
   View,
 } from 'react-native';
 
+import { calcNewExpirationDate } from '../../../utils/date_formatting';
 import { deleteNote } from '../../backend/db/notes/delete';
 import { insertNote } from '../../backend/db/notes/insert';
 import { updateNote } from '../../backend/db/notes/update';
@@ -26,26 +27,42 @@ const DetailsScreen = ({ route }: any) => {
   const navigation = useNavigation();
 
   const { note: passedNote } = route.params || {};
-  const [note, setNote] = useState<Note>(passedNote || {});
+  const [note, setNote] = useState<Note>(passedNote || emptyNote);
 
   const [title, setTitle] = useState<string>(note.title);
   const handleTitleChange = async (_event: NativeSyntheticEvent<TextInputFocusEventData>) => {
-    const newNote = { ...note, title };
+    const newNote: Note = { ...note, title };
     const savedNote = note.id ? await updateNote(db, newNote) : await insertNote(db, newNote);
     setNote(savedNote);
   };
 
   const [description, setDescription] = useState<string>(note.description);
   const handleDescriptionChange = async (_event: NativeSyntheticEvent<TextInputFocusEventData>) => {
-    const newNote = { ...note, description };
+    const newNote: Note = { ...note, description };
     const savedNote = note.id ? await updateNote(db, newNote) : await insertNote(db, newNote);
     setNote(savedNote);
   };
 
-  const [openingDate, setOpeningDate] = useState(new Date(note?.opening_date || new Date()));
-  const [expirationDate, setExpirationDate] = useState(
-    new Date(note?.expiration_date || new Date()),
-  );
+  const [openingDate, setOpeningDate] = useState<Date>(new Date(note.opening_date));
+  const handleOpeningDateChange = async (date: Date) => {
+    const newNote: Note = { ...note, opening_date: `${date}` };
+    const savedNote = note.id ? await updateNote(db, newNote) : await insertNote(db, newNote);
+    setNote(savedNote);
+    if (date > expirationDate) {
+      console.log('new opedate', date.toISOString());
+      const newExpirationDate = calcNewExpirationDate(openingDate, expirationDate, date);
+      console.log('new exp date', newExpirationDate.toISOString());
+      await handleExpirationDateChange(newExpirationDate);
+    }
+    setOpeningDate(date);
+  };
+  const [expirationDate, setExpirationDate] = useState<Date>(new Date(note.expiration_date));
+  const handleExpirationDateChange = async (date: Date) => {
+    setExpirationDate(date);
+    const newNote: Note = { ...note, expiration_date: `${date}` };
+    const savedNote = note.id ? await updateNote(db, newNote) : await insertNote(db, newNote);
+    setNote(savedNote);
+  };
 
   const handleBack = () => {
     console.log('route params!', route.params);
@@ -78,9 +95,9 @@ const DetailsScreen = ({ route }: any) => {
           />
         </View>
         <View style={styles.right}>
-          {note && <IconButton iconName="delete" onPress={handleDelete} />}
-          {note && <IconButton iconName="content-copy" onPress={handleClone} />}
-          {note && <IconButton iconName="restore" onPress={handleReset} />}
+          {note.id && <IconButton iconName="delete" onPress={handleDelete} />}
+          {note.id && <IconButton iconName="content-copy" onPress={handleClone} />}
+          {note.id && <IconButton iconName="restore" onPress={handleReset} />}
         </View>
       </View>
       <View>
@@ -109,14 +126,15 @@ const DetailsScreen = ({ route }: any) => {
           date={openingDate}
           testId="content_details_opening_date"
           id="content_details_opening_date"
-          setDate={setOpeningDate}
+          setDate={handleOpeningDateChange}
         />
         <DateTimePickerCombiField
           name="Expiration date"
           date={expirationDate}
           id="content_details_expiration_date"
           testId="content_details_expiration_date"
-          setDate={setExpirationDate}
+          setDate={handleExpirationDateChange}
+          minDate={openingDate}
         />
       </View>
     </View>
