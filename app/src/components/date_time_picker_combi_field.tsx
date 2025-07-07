@@ -2,7 +2,7 @@ import RNDateTimePicker from '@react-native-community/datetimepicker';
 import React, { useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-import { formatDateToDDMMYYYY } from '../../utils/date_formatting';
+import { formatDateToDDMMYYYY } from '../utils/date_formatting';
 import text from '../styles/text';
 
 interface DateTimePickerCombiFieldProps {
@@ -11,6 +11,7 @@ interface DateTimePickerCombiFieldProps {
   testId: string;
   id: string;
   setDate: (date: Date) => void;
+  minDate?: Date;
 }
 
 export default function DateTimePickerCombiField({
@@ -19,6 +20,7 @@ export default function DateTimePickerCombiField({
   id,
   testId,
   setDate,
+  minDate,
 }: DateTimePickerCombiFieldProps): React.JSX.Element {
   const [show, setShow] = useState(false);
 
@@ -41,6 +43,7 @@ export default function DateTimePickerCombiField({
           value={date}
           onChange={handleChange}
           testID={`${testId}_spinner`}
+          minimumDate={minDate}
         />
       )}
     </View>

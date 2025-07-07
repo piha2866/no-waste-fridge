@@ -1,5 +1,5 @@
 import { device, expect, element, by } from 'detox';
-import { formatDateToDDMMYYYY } from '../../app/utils/date_formatting';
+import { formatDateToDDMMYYYY } from '../../app/src/utils/date_formatting';
 
 describe('proper home screen', () => {
   beforeAll(async () => {

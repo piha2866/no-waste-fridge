@@ -3,10 +3,10 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 
 import { selectNotes } from '../../backend/db/notes/select';
-import { Note } from '../../backend/db/types';
 import { useDatabase } from '../../context/db';
 import container from '../../styles/container';
 import text from '../../styles/text';
+import { Note } from '../../types/note/note';
 import ContentCreationButton from './content_creation_button';
 import ContentGrid from './content_grid';
 

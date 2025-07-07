@@ -1,7 +1,8 @@
 import { fireEvent, render } from '@testing-library/react-native';
 import React from 'react';
 
-import DateTimePickerCombiField, { formatDateToDDMMYYYY } from './date_time_picker_combi_field';
+import { formatDateToDDMMYYYY } from '../utils/date_formatting';
+import DateTimePickerCombiField from './date_time_picker_combi_field';
 
 describe('formatDateToDDMMYYYY', () => {
   it('formats a regular date correctly', () => {

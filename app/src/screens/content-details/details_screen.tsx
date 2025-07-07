@@ -10,16 +10,24 @@ import {
   View,
 } from 'react-native';
 
-import { calcNewExpirationDate } from '../../../utils/date_formatting';
 import { deleteNote } from '../../backend/db/notes/delete';
 import { insertNote } from '../../backend/db/notes/insert';
 import { updateNote } from '../../backend/db/notes/update';
-import { Note } from '../../backend/db/types';
 import { IconButton } from '../../components/buttons';
 import DateTimePickerCombiField from '../../components/date_time_picker_combi_field';
 import { useDatabase } from '../../context/db';
 import container from '../../styles/container';
 import text from '../../styles/text';
+import { NewNote, Note } from '../../types/note/note';
+import { calcNewExpirationDate } from '../../utils/date_formatting';
+import { isNote } from '../../utils/typeguards';
+
+const emptyNote: NewNote = {
+  title: '',
+  description: '',
+  expirationDate: String(new Date()),
+  openingDate: String(new Date()),
+};
 
 const DetailsScreen = ({ route }: any) => {
   const { db } = useDatabase();
@@ -27,27 +35,34 @@ const DetailsScreen = ({ route }: any) => {
   const navigation = useNavigation();
 
   const { note: passedNote } = route.params || {};
-  const [note, setNote] = useState<Note>(passedNote || emptyNote);
+  const [note, setNote] = useState<Note | NewNote>(passedNote || emptyNote);
+
+  const [prevNote, setPrevNote] = useState<Note | boolean>(false);
+
+  const saveNote = async (note: Note | NewNote): Promise<void> => {
+    const savedNote = isNote(note)
+      ? await updateNote(db, note as Note)
+      : await insertNote(db, note);
+
+    setNote(savedNote);
+  };
 
   const [title, setTitle] = useState<string>(note.title);
   const handleTitleChange = async (_event: NativeSyntheticEvent<TextInputFocusEventData>) => {
-    const newNote: Note = { ...note, title };
-    const savedNote = note.id ? await updateNote(db, newNote) : await insertNote(db, newNote);
-    setNote(savedNote);
+    const newNote: Note | NewNote = { ...note, title };
+    void saveNote(newNote);
   };
 
   const [description, setDescription] = useState<string>(note.description);
   const handleDescriptionChange = async (_event: NativeSyntheticEvent<TextInputFocusEventData>) => {
-    const newNote: Note = { ...note, description };
-    const savedNote = note.id ? await updateNote(db, newNote) : await insertNote(db, newNote);
-    setNote(savedNote);
+    const newNote: Note | NewNote = { ...note, description };
+    void saveNote(newNote);
   };
 
-  const [openingDate, setOpeningDate] = useState<Date>(new Date(note.opening_date));
+  const [openingDate, setOpeningDate] = useState<Date>(new Date(note.openingDate));
   const handleOpeningDateChange = async (date: Date) => {
-    const newNote: Note = { ...note, opening_date: `${date}` };
-    const savedNote = note.id ? await updateNote(db, newNote) : await insertNote(db, newNote);
-    setNote(savedNote);
+    const newNote: Note | NewNote = { ...note, openingDate: `${date}` };
+    void saveNote(newNote);
     if (date > expirationDate) {
       console.log('new opedate', date.toISOString());
       const newExpirationDate = calcNewExpirationDate(openingDate, expirationDate, date);
@@ -56,12 +71,11 @@ const DetailsScreen = ({ route }: any) => {
     }
     setOpeningDate(date);
   };
-  const [expirationDate, setExpirationDate] = useState<Date>(new Date(note.expiration_date));
+  const [expirationDate, setExpirationDate] = useState<Date>(new Date(note.expirationDate));
   const handleExpirationDateChange = async (date: Date) => {
     setExpirationDate(date);
-    const newNote: Note = { ...note, expiration_date: `${date}` };
-    const savedNote = note.id ? await updateNote(db, newNote) : await insertNote(db, newNote);
-    setNote(savedNote);
+    const newNote: Note | NewNote = { ...note, expirationDate: `${date}` };
+    void saveNote(newNote);
   };
 
   const handleBack = () => {
@@ -69,13 +83,27 @@ const DetailsScreen = ({ route }: any) => {
     navigation.goBack();
   };
   const handleDelete = async () => {
-    if (!note.id) return;
+    if (!isNote(note)) return;
     console.log('Sure you want to delete?');
     await deleteNote(db, note.id);
     console.log('deleted');
     navigation.goBack();
   };
-  const handleClone = () => console.log('Go to cloning edit page?');
+
+  const handleClone = () => {
+    console.log('Go to cloning edit page?');
+    const newOpeningDate = String(new Date());
+    const newExpirationDate = String(calcNewExpirationDate(openingDate, expirationDate));
+    console.log(newExpirationDate);
+    const clonedNote: NewNote = {
+      title: note.title,
+      description: note.description,
+      openingDate: newOpeningDate,
+      expirationDate: newExpirationDate,
+    };
+    setPrevNote(note as Note);
+    setNote(clonedNote);
+  };
   const handleReset = () => console.log('Set dates to now');
 
   return (
@@ -95,9 +123,9 @@ const DetailsScreen = ({ route }: any) => {
           />
         </View>
         <View style={styles.right}>
-          {note.id && <IconButton iconName="delete" onPress={handleDelete} />}
-          {note.id && <IconButton iconName="content-copy" onPress={handleClone} />}
-          {note.id && <IconButton iconName="restore" onPress={handleReset} />}
+          {isNote(note) && <IconButton iconName="delete" onPress={handleDelete} />}
+          {isNote(note) && <IconButton iconName="content-copy" onPress={handleClone} />}
+          {isNote(note) && <IconButton iconName="restore" onPress={handleReset} />}
         </View>
       </View>
       <View>
@@ -124,15 +152,15 @@ const DetailsScreen = ({ route }: any) => {
         <DateTimePickerCombiField
           name="Opening date"
           date={openingDate}
-          testId="content_details_opening_date"
-          id="content_details_opening_date"
+          testId="content_details_openingDate"
+          id="content_details_openingDate"
           setDate={handleOpeningDateChange}
         />
         <DateTimePickerCombiField
           name="Expiration date"
           date={expirationDate}
-          id="content_details_expiration_date"
-          testId="content_details_expiration_date"
+          id="content_details_expirationDate"
+          testId="content_details_expirationDate"
           setDate={handleExpirationDateChange}
           minDate={openingDate}
         />
