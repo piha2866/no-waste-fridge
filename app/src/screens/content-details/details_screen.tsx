@@ -79,7 +79,7 @@ const DetailsScreen = ({ route }: any) => {
   const handleHome = () => {
     navigation.goBack();
   };
-  const invalidateClone = () => {
+  const goToPreviousNote = () => {
     if (prevNote) {
       setNote(prevNote);
       setOpeningDate(new Date(prevNote.openingDate));
@@ -107,14 +107,26 @@ const DetailsScreen = ({ route }: any) => {
     setOpeningDate(newOpeningDate);
     setExpirationDate(newExpirationDate);
   };
-  const handleReset = () => console.log('Set dates to now');
+  const handleReset = () => {
+    const newOpeningDate = new Date();
+    const newExpirationDate = calcNewExpirationDate(openingDate, expirationDate);
+    const newNote: Note = {
+      ...(note as Note),
+      openingDate: String(newOpeningDate),
+      expirationDate: String(newExpirationDate),
+    };
+    setPrevNote(note as Note);
+    setNote(newNote);
+    setOpeningDate(newOpeningDate);
+    setExpirationDate(newExpirationDate);
+  };
 
   return (
     <View style={{ ...container.main, paddingVertical: height * 0.05 }}>
       <View style={styles.imageIconsContainer}>
         <View style={styles.left} testID="content_details_back_button">
           <IconButton iconName="home" onPress={handleHome} />
-          {prevNote && <IconButton iconName="arrow-back" onPress={invalidateClone} />}
+          {prevNote && <IconButton iconName="arrow-back" onPress={goToPreviousNote} />}
         </View>
         <View style={styles.middle}>
           <Image
@@ -127,11 +139,11 @@ const DetailsScreen = ({ route }: any) => {
           />
         </View>
         <View style={styles.right}>
-          {prevNote && (
+          {!isNote(note) && (
             <IconButton
               iconName="done"
               onPress={() => {
-                void saveNote(note);
+                if (note !== emptyNote) void saveNote(note);
                 handleHome();
               }}
             />
