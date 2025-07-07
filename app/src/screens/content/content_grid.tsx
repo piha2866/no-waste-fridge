@@ -1,7 +1,7 @@
 import React from 'react';
 import { ScrollView, StyleSheet, useWindowDimensions } from 'react-native';
 
-import { Note } from '../../backend/db/types';
+import { Note } from '../../types/note/note';
 import { Content } from './content';
 
 interface ContentGridProps {

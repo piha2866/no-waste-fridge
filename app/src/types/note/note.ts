@@ -1,13 +1,13 @@
 interface BaseNote {
   title: string;
   description: string;
-  opening_date: string;
-  expiration_date: string;
+  openingDate: string;
+  expirationDate: string;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
-export interface DBNewNote extends BaseNote {}
+export interface NewNote extends BaseNote {}
 
-export interface DBNote extends BaseNote {
+export interface Note extends BaseNote {
   id: number;
 }

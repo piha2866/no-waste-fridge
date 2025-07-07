@@ -2,37 +2,27 @@ import RNDateTimePicker from '@react-native-community/datetimepicker';
 import React, { useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
+import { formatDateToDDMMYYYY } from '../utils/date_formatting';
 import text from '../styles/text';
 
 interface DateTimePickerCombiFieldProps {
   name: string;
-  value: string;
+  date: Date;
   testId: string;
   id: string;
-}
-
-export function formatDateToDDMMYYYY(date: Date): string {
-  try {
-    const day = String(date.getDate()).padStart(2, '0'); // Ensure 2 digits
-    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
-    const year = date.getFullYear();
-    if (day === 'NaN') throw Error('Invalid date');
-    return `${day}-${month}-${year}`;
-  } catch (error) {
-    console.log('DATEE', date);
-    console.log(error);
-    return '';
-  }
+  setDate: (date: Date) => void;
+  minDate?: Date;
 }
 
 export default function DateTimePickerCombiField({
   name,
-  value,
+  date,
   id,
   testId,
+  setDate,
+  minDate,
 }: DateTimePickerCombiFieldProps): React.JSX.Element {
   const [show, setShow] = useState(false);
-  const [date, setDate] = useState(new Date(value || new Date()));
 
   const handleChange = (_event: any, selectedDate?: Date): void => {
     setShow(false);
@@ -53,6 +43,7 @@ export default function DateTimePickerCombiField({
           value={date}
           onChange={handleChange}
           testID={`${testId}_spinner`}
+          minimumDate={minDate}
         />
       )}
     </View>

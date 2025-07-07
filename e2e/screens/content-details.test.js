@@ -9,8 +9,13 @@ describe('content_details_screen', () => {
 
   it('should show all elements (except for content editing buttons)', async () => {
     await element(by.id('add-content-button')).tap();
-    await expect(element(by.id('arrow-back-button'))).toBeVisible();
+    await expect(element(by.id('home-button'))).toBeVisible();
     await expect(element(by.id('content_details_image'))).toBeVisible();
+    await expect(element(by.id('delete-button'))).not.toBeVisible();
+    await expect(element(by.id('content-copy-button'))).not.toBeVisible();
+    await expect(element(by.id('restore-button'))).not.toBeVisible();
+    await expect(element(by.id('done-button'))).not.toBeVisible();
+    await expect(element(by.id('arrow-back-button'))).not.toBeVisible();
 
     await expect(element(by.id('content_details_title_field'))).toBeVisible();
     await expect(element(by.id('content_details_description_field'))).toBeVisible();
@@ -18,16 +23,18 @@ describe('content_details_screen', () => {
     await expect(element(by.id('content_details_opening_date_output'))).toBeVisible();
     await expect(element(by.id('content_details_expiration_date_button'))).toBeVisible();
     await expect(element(by.id('content_details_expiration_date_output'))).toBeVisible();
-    await element(by.id('arrow-back-button')).tap();
+    await element(by.id('home-button')).tap();
   });
 
   it('should show all elements (including content editing buttons)', async () => {
     await element(by.id('note-1')).tap();
-    await expect(element(by.id('arrow-back-button'))).toBeVisible();
+    await expect(element(by.id('home-button'))).toBeVisible();
     await expect(element(by.id('content_details_image'))).toBeVisible();
     await expect(element(by.id('delete-button'))).toBeVisible();
     await expect(element(by.id('content-copy-button'))).toBeVisible();
     await expect(element(by.id('restore-button'))).toBeVisible();
+    await expect(element(by.id('done-button'))).not.toBeVisible();
+    await expect(element(by.id('arrow-back-button'))).not.toBeVisible();
 
     await expect(element(by.id('content_details_title_field'))).toBeVisible();
     await expect(element(by.id('content_details_description_field'))).toBeVisible();
@@ -35,7 +42,7 @@ describe('content_details_screen', () => {
     await expect(element(by.id('content_details_opening_date_output'))).toBeVisible();
     await expect(element(by.id('content_details_expiration_date_button'))).toBeVisible();
     await expect(element(by.id('content_details_expiration_date_output'))).toBeVisible();
-    await element(by.id('arrow-back-button')).tap();
+    await element(by.id('home-button')).tap();
   });
 
   it('should enable editing of opening date using datetimepicker', async () => {

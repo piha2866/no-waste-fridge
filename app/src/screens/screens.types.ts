@@ -1,7 +1,7 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
-import { Note } from '../backend/db/types';
 import { StackParamList } from '../navigation/AppNavigator';
+import { Note } from '../types/note/note';
 
 export type DetailsScreenRouteProp = NativeStackScreenProps<StackParamList, 'Details'>;
 

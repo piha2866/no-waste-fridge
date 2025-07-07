@@ -1,9 +1,9 @@
 import React from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity } from 'react-native';
 
-import { Note } from '../../backend/db/types';
 import { useTypedNavigation } from '../../navigation/AppNavigator';
 import colors from '../../styles/colors';
+import { Note } from '../../types/note/note';
 
 interface ContentProps {
   note: Note;
