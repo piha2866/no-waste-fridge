@@ -152,15 +152,15 @@ const DetailsScreen = ({ route }: any) => {
         <DateTimePickerCombiField
           name="Opening date"
           date={openingDate}
-          testId="content_details_openingDate"
-          id="content_details_openingDate"
+          testId="content_details_opening_date"
+          id="content_details_opening_date"
           setDate={handleOpeningDateChange}
         />
         <DateTimePickerCombiField
           name="Expiration date"
           date={expirationDate}
-          id="content_details_expirationDate"
-          testId="content_details_expirationDate"
+          id="content_details_expiration_date"
+          testId="content_details_expiration_date"
           setDate={handleExpirationDateChange}
           minDate={openingDate}
         />
