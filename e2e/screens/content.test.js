@@ -19,7 +19,7 @@ describe('proper home screen', () => {
   it('should have add button going to content-details screen', async () => {
     await expect(element(by.id('add-content-button'))).toBeVisible();
     await element(by.id('add-content-button')).tap();
-    await expect(element(by.id('arrow-back-button'))).toBeVisible();
+    await expect(element(by.id('home-button'))).toBeVisible();
   });
 });
 
@@ -41,7 +41,7 @@ describe('insert note', () => {
     await device.launchApp({ newInstance: true });
   });
 
-  it.only('should be able to add a note from scratch', async () => {
+  it('should be able to add a note from scratch', async () => {
     const title = 'Test Note';
     const desc = 'This is a test note.';
     const date = new Date();
@@ -59,7 +59,7 @@ describe('insert note', () => {
     await expect(element(by.text(desc))).toBeVisible();
     await expect(element(by.text(openingDate))).toBeVisible();
     await expect(element(by.text(expirationDate))).toBeVisible();
-    await element(by.id('arrow-back-button')).tap();
+    await element(by.id('home-button')).tap();
 
     await expect(element(by.text(title))).toBeVisible();
     await element(by.text(title)).tap();
@@ -68,5 +68,35 @@ describe('insert note', () => {
     await expect(element(by.text(desc))).toBeVisible();
     await expect(element(by.text(openingDate))).toBeVisible();
     await expect(element(by.text(expirationDate))).toBeVisible();
+    await element(by.id('home-button')).tap();
+  });
+
+  it('should be able to clone a note', async () => {
+    const title = 'Test Note';
+    const title2 = ' 2';
+    await element(by.text(title)).tap();
+    await element(by.id('content-copy-button')).tap();
+
+    await expect(element(by.id('arrow-back-button'))).toBeVisible();
+    await expect(element(by.id('home-button'))).toBeVisible();
+    await expect(element(by.id('content_details_image'))).toBeVisible();
+    // check content of clone note
+    await expect(element(by.id('content_details_title_field'))).toBeVisible();
+    await expect(element(by.id('content_details_description_field'))).toBeVisible();
+    await expect(element(by.id('content_details_opening_date_button'))).toBeVisible();
+    await expect(element(by.id('content_details_opening_date_output'))).toBeVisible();
+    await expect(element(by.id('content_details_expiration_date_button'))).toBeVisible();
+    await expect(element(by.id('content_details_expiration_date_output'))).toBeVisible();
+    await expect(element(by.id('done-button'))).toBeVisible();
+    await expect(element(by.id('delete-button'))).not.toBeVisible();
+    await expect(element(by.id('content-copy-button'))).not.toBeVisible();
+    await expect(element(by.id('restore-button'))).not.toBeVisible();
+
+    await expect(element(by.id('content_details_title_field'))).toHaveText(title);
+
+    await element(by.id('content_details_title_field')).typeText(title2);
+    await element(by.id('content_details_description_field')).typeText('test');
+    await element(by.id('home-button')).tap();
+    await expect(element(by.text(title + title2))).toBeVisible();
   });
 });

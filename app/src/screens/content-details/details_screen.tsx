@@ -37,7 +37,7 @@ const DetailsScreen = ({ route }: any) => {
   const { note: passedNote } = route.params || {};
   const [note, setNote] = useState<Note | NewNote>(passedNote || emptyNote);
 
-  const [prevNote, setPrevNote] = useState<Note | boolean>(false);
+  const [prevNote, setPrevNote] = useState<Note | false>(false);
 
   const saveNote = async (note: Note | NewNote): Promise<void> => {
     const savedNote = isNote(note)
@@ -64,9 +64,7 @@ const DetailsScreen = ({ route }: any) => {
     const newNote: Note | NewNote = { ...note, openingDate: `${date}` };
     void saveNote(newNote);
     if (date > expirationDate) {
-      console.log('new opedate', date.toISOString());
       const newExpirationDate = calcNewExpirationDate(openingDate, expirationDate, date);
-      console.log('new exp date', newExpirationDate.toISOString());
       await handleExpirationDateChange(newExpirationDate);
     }
     setOpeningDate(date);
@@ -78,31 +76,36 @@ const DetailsScreen = ({ route }: any) => {
     void saveNote(newNote);
   };
 
-  const handleBack = () => {
-    console.log('route params!', route.params);
+  const handleHome = () => {
     navigation.goBack();
+  };
+  const invalidateClone = () => {
+    if (prevNote) {
+      setNote(prevNote);
+      setOpeningDate(new Date(prevNote.openingDate));
+      setExpirationDate(new Date(prevNote.expirationDate));
+      setPrevNote(false);
+    }
   };
   const handleDelete = async () => {
     if (!isNote(note)) return;
-    console.log('Sure you want to delete?');
     await deleteNote(db, note.id);
-    console.log('deleted');
     navigation.goBack();
   };
 
   const handleClone = () => {
-    console.log('Go to cloning edit page?');
-    const newOpeningDate = String(new Date());
-    const newExpirationDate = String(calcNewExpirationDate(openingDate, expirationDate));
-    console.log(newExpirationDate);
+    const newOpeningDate = new Date();
+    const newExpirationDate = calcNewExpirationDate(openingDate, expirationDate);
     const clonedNote: NewNote = {
       title: note.title,
       description: note.description,
-      openingDate: newOpeningDate,
-      expirationDate: newExpirationDate,
+      openingDate: String(newOpeningDate),
+      expirationDate: String(newExpirationDate),
     };
     setPrevNote(note as Note);
-    setNote(clonedNote);
+    setNote({ ...clonedNote });
+    setOpeningDate(newOpeningDate);
+    setExpirationDate(newExpirationDate);
   };
   const handleReset = () => console.log('Set dates to now');
 
@@ -110,7 +113,8 @@ const DetailsScreen = ({ route }: any) => {
     <View style={{ ...container.main, paddingVertical: height * 0.05 }}>
       <View style={styles.imageIconsContainer}>
         <View style={styles.left} testID="content_details_back_button">
-          <IconButton iconName="arrow-back" onPress={handleBack} />
+          <IconButton iconName="home" onPress={handleHome} />
+          {prevNote && <IconButton iconName="arrow-back" onPress={invalidateClone} />}
         </View>
         <View style={styles.middle}>
           <Image
@@ -123,6 +127,15 @@ const DetailsScreen = ({ route }: any) => {
           />
         </View>
         <View style={styles.right}>
+          {prevNote && (
+            <IconButton
+              iconName="done"
+              onPress={() => {
+                void saveNote(note);
+                handleHome();
+              }}
+            />
+          )}
           {isNote(note) && <IconButton iconName="delete" onPress={handleDelete} />}
           {isNote(note) && <IconButton iconName="content-copy" onPress={handleClone} />}
           {isNote(note) && <IconButton iconName="restore" onPress={handleReset} />}
