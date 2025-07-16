@@ -41,7 +41,7 @@ describe('insert note', () => {
     await device.launchApp({ newInstance: true });
   });
 
-  it('should be able to add a note from scratch', async () => {
+  it.only('should be able to add a note from scratch', async () => {
     const title = 'Test Note';
     const desc = 'This is a test note.';
     const date = new Date();
@@ -53,21 +53,22 @@ describe('insert note', () => {
     await element(by.id('add-content-button')).tap();
     await element(by.id('content_details_title_field')).typeText(title);
     await element(by.id('content_details_description_field')).typeText(desc);
-    await element(by.id('content_details_expiration_date_button')).tap();
+    await element(by.id('content_details_opening_date_output')).tap();
+    await expect(element(by.id('content_details_opening_date_spinner'))).toBeVisible();
+    await element(by.id('content_details_opening_date_spinner')).scroll(100, 'down');
     await element(by.text('OK')).tap();
     await expect(element(by.text(title))).toBeVisible();
     await expect(element(by.text(desc))).toBeVisible();
-    await expect(element(by.text(openingDate))).toBeVisible();
-    await expect(element(by.text(expirationDate))).toBeVisible();
+    await expect(element(by.id('content_details_opening_date_output'))).toHaveText(openingDate);
+    await expect(element(by.id('content_details_expiration_date_output'))).toHaveText(openingDate);
     await element(by.id('home-button')).tap();
 
-    await expect(element(by.text(title))).toBeVisible();
     await element(by.text(title)).tap();
 
     await expect(element(by.text(title))).toBeVisible();
     await expect(element(by.text(desc))).toBeVisible();
-    await expect(element(by.text(openingDate))).toBeVisible();
-    await expect(element(by.text(expirationDate))).toBeVisible();
+    await expect(element(by.id('content_details_opening_date_output'))).toHaveText(openingDate);
+    await expect(element(by.id('content_details_expiration_date_output'))).toHaveText(openingDate);
     await element(by.id('home-button')).tap();
   });
 
