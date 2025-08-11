@@ -75,7 +75,7 @@ const DetailsScreen = ({ route }: any) => {
   };
   const goToPreviousNote = () => {
     if (prevNote) {
-      setNote(prevNote);
+      void saveNote(prevNote);
       setOpeningDate(new Date(prevNote.openingDate));
       setExpirationDate(new Date(prevNote.expirationDate));
       setPrevNote(false);
@@ -110,7 +110,7 @@ const DetailsScreen = ({ route }: any) => {
       expirationDate: String(newExpirationDate),
     };
     setPrevNote(note as Note);
-    setNote(newNote);
+    void saveNote(newNote);
     setOpeningDate(newOpeningDate);
     setExpirationDate(newExpirationDate);
   };
