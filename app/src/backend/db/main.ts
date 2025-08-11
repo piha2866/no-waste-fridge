@@ -18,12 +18,14 @@ export const createTable = async (db: SQLiteDatabase): Promise<void> => {
     );`;
   await db.executeSql(`DROP TABLE IF EXISTS ${tableName};`);
   await db.executeSql(query);
+  const openingDate = new Date('1-20-2020');
+  const expirationDate = new Date('1-23-2020');
   await db.executeSql(`INSERT INTO ${tableName} (title, description, opening_date, expiration_date) VALUES
-    ('Groceries', 'Buy milk, eggs, and bread', '${new Date()}', '${new Date()}'),
-    ('Workout Plan', 'Monday: chest, Tuesday: back', '${new Date()}', '${new Date()}'),
-    ('Meeting Notes', 'Discuss project roadmap and milestones', '${new Date()}', '${new Date()}'),
-    ('Books to Read', 'The Great Gatsby, 1984, Brave New World', '${new Date()}', '${new Date()}'),
-    ('Ideas', 'App for tracking daily habits', '${new Date()}', '${new Date()}');`);
+    ('Groceries', 'Buy milk, eggs, and bread', '${openingDate}', '${expirationDate}'),
+    ('Workout Plan', 'Monday: chest, Tuesday: back', '${openingDate}', '${expirationDate}'),
+    ('Meeting Notes', 'Discuss project roadmap and milestones', '${openingDate}', '${expirationDate}'),
+    ('Books to Read', 'The Great Gatsby, 1984, Brave New World', '${openingDate}', '${expirationDate}'),
+    ('Ideas', 'App for tracking daily habits', '${openingDate}', '${expirationDate}');`);
 };
 
 export const initializeDB = async (): Promise<SQLiteDatabase> => {

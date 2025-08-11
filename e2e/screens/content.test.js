@@ -41,13 +41,10 @@ describe('insert note', () => {
     await device.launchApp({ newInstance: true });
   });
 
-  it.only('should be able to add a note from scratch', async () => {
+  it('should be able to add a note from scratch', async () => {
     const title = 'Test Note';
     const desc = 'This is a test note.';
-    const date = new Date();
-    const openingDate = formatDateToDDMMYYYY(date);
-    date.setFullYear(date.getFullYear() + 1);
-    const expirationDate = formatDateToDDMMYYYY(date);
+    const date = formatDateToDDMMYYYY(new Date());
     await expect(element(by.text(title))).not.toBeVisible();
     await expect(element(by.text(desc))).not.toBeVisible();
     await element(by.id('add-content-button')).tap();
@@ -55,20 +52,19 @@ describe('insert note', () => {
     await element(by.id('content_details_description_field')).typeText(desc);
     await element(by.id('content_details_opening_date_output')).tap();
     await expect(element(by.id('content_details_opening_date_spinner'))).toBeVisible();
-    await element(by.id('content_details_opening_date_spinner')).scroll(100, 'down');
     await element(by.text('OK')).tap();
     await expect(element(by.text(title))).toBeVisible();
     await expect(element(by.text(desc))).toBeVisible();
-    await expect(element(by.id('content_details_opening_date_output'))).toHaveText(openingDate);
-    await expect(element(by.id('content_details_expiration_date_output'))).toHaveText(openingDate);
+    await expect(element(by.id('content_details_opening_date_output'))).toHaveText(date);
+    await expect(element(by.id('content_details_expiration_date_output'))).toHaveText(date);
     await element(by.id('home-button')).tap();
 
     await element(by.text(title)).tap();
 
     await expect(element(by.text(title))).toBeVisible();
     await expect(element(by.text(desc))).toBeVisible();
-    await expect(element(by.id('content_details_opening_date_output'))).toHaveText(openingDate);
-    await expect(element(by.id('content_details_expiration_date_output'))).toHaveText(openingDate);
+    await expect(element(by.id('content_details_opening_date_output'))).toHaveText(date);
+    await expect(element(by.id('content_details_expiration_date_output'))).toHaveText(date);
     await element(by.id('home-button')).tap();
   });
 
@@ -99,5 +95,36 @@ describe('insert note', () => {
     await element(by.id('content_details_description_field')).typeText('test');
     await element(by.id('home-button')).tap();
     await expect(element(by.text(title + title2))).toBeVisible();
+  });
+
+  it('should be able to reset a note to the new date', async () => {
+    const title = 'Ideas';
+    const date = new Date();
+    const openingDate = formatDateToDDMMYYYY(date);
+    await element(by.text(title)).tap();
+    await element(by.id('restore-button')).tap();
+
+    await expect(element(by.id('arrow-back-button'))).toBeVisible();
+    await expect(element(by.id('home-button'))).toBeVisible();
+    await expect(element(by.id('content_details_image'))).toBeVisible();
+    // check content of clone note
+    await expect(element(by.id('content_details_title_field'))).toBeVisible();
+    await expect(element(by.id('content_details_description_field'))).toBeVisible();
+    await expect(element(by.id('content_details_opening_date_button'))).toBeVisible();
+    await expect(element(by.id('content_details_opening_date_output'))).toBeVisible();
+    await expect(element(by.id('content_details_expiration_date_button'))).toBeVisible();
+    await expect(element(by.id('content_details_expiration_date_output'))).toBeVisible();
+    await expect(element(by.id('done-button'))).not.toBeVisible();
+    await expect(element(by.id('delete-button'))).toBeVisible();
+    await expect(element(by.id('content-copy-button'))).toBeVisible();
+    await expect(element(by.id('restore-button'))).toBeVisible();
+
+    await expect(element(by.id('content_details_title_field'))).toHaveText(title);
+    await expect(element(by.id('content_details_opening_date_output'))).toHaveText(openingDate);
+    await element(by.id('home-button')).tap();
+    await expect(element(by.text(title))).toBeVisible();
+    // check the the reset was actually saved
+    await element(by.text(title)).tap();
+    await expect(element(by.id('content_details_opening_date_output'))).toHaveText(openingDate);
   });
 });
