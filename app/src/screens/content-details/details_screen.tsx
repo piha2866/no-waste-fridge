@@ -1,14 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
-import {
-  Image,
-  NativeSyntheticEvent,
-  StyleSheet,
-  TextInput,
-  TextInputFocusEventData,
-  useWindowDimensions,
-  View,
-} from 'react-native';
+import { Image, StyleSheet, TextInput, useWindowDimensions, View } from 'react-native';
 
 import { deleteNote } from '../../backend/db/notes/delete';
 import { insertNote } from '../../backend/db/notes/insert';
@@ -48,14 +40,16 @@ const DetailsScreen = ({ route }: any) => {
   };
 
   const [title, setTitle] = useState<string>(note.title);
-  const handleTitleChange = async (_event: NativeSyntheticEvent<TextInputFocusEventData>) => {
-    const newNote: Note | NewNote = { ...note, title };
+  const handleTitleChange = async (text: string) => {
+    setTitle(text);
+    const newNote: Note | NewNote = { ...note, title: text };
     void saveNote(newNote);
   };
 
   const [description, setDescription] = useState<string>(note.description);
-  const handleDescriptionChange = async (_event: NativeSyntheticEvent<TextInputFocusEventData>) => {
-    const newNote: Note | NewNote = { ...note, description };
+  const handleDescriptionChange = async (text: string) => {
+    setDescription(text);
+    const newNote: Note | NewNote = { ...note, description: text };
     void saveNote(newNote);
   };
 
@@ -81,7 +75,7 @@ const DetailsScreen = ({ route }: any) => {
   };
   const goToPreviousNote = () => {
     if (prevNote) {
-      setNote(prevNote);
+      void saveNote(prevNote);
       setOpeningDate(new Date(prevNote.openingDate));
       setExpirationDate(new Date(prevNote.expirationDate));
       setPrevNote(false);
@@ -116,7 +110,7 @@ const DetailsScreen = ({ route }: any) => {
       expirationDate: String(newExpirationDate),
     };
     setPrevNote(note as Note);
-    setNote(newNote);
+    void saveNote(newNote);
     setOpeningDate(newOpeningDate);
     setExpirationDate(newExpirationDate);
   };
@@ -160,16 +154,14 @@ const DetailsScreen = ({ route }: any) => {
           placeholder="Title"
           id="content_details_title_field"
           testID="content_details_title_field"
-          onChangeText={setTitle}
-          onBlur={(t) => handleTitleChange(t)}
+          onChangeText={handleTitleChange}
         />
         <TextInput
           placeholder="Description"
           value={description}
           id="content_details_description_field"
           testID="content_details_description_field"
-          onChangeText={setDescription}
-          onBlur={(t) => handleDescriptionChange(t)}
+          onChangeText={handleDescriptionChange}
         />
       </View>
       <View style={{ flexGrow: 1 }} />

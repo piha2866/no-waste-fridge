@@ -14,7 +14,7 @@ describe('content_details_screen', () => {
     await expect(element(by.id('delete-button'))).not.toBeVisible();
     await expect(element(by.id('content-copy-button'))).not.toBeVisible();
     await expect(element(by.id('restore-button'))).not.toBeVisible();
-    await expect(element(by.id('done-button'))).not.toBeVisible();
+    await expect(element(by.id('done-button'))).toBeVisible();
     await expect(element(by.id('arrow-back-button'))).not.toBeVisible();
 
     await expect(element(by.id('content_details_title_field'))).toBeVisible();
