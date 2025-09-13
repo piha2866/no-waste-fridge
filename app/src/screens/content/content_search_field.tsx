@@ -35,16 +35,16 @@ const styles = StyleSheet.create({
   searchLine: {
     flexDirection: 'row',
     borderColor: colors.text,
-    borderWidth: 5,
+    borderWidth: 2,
     borderRadius: 20,
-    padding: 2,
+    paddingLeft: 15,
     height: '80%',
     margin: 10,
   },
   input: {
     flex: 1,
-    fontSize: 16,
-    color: 'red',
+    fontSize: 24,
+    color: colors.text,
   },
   button: {
     alignSelf: 'center',

@@ -13,6 +13,7 @@ import colors from '../styles/colors';
 interface IconButtonProps {
   iconName: string;
   onPress: (event: GestureResponderEvent) => void;
+  onLongPress?: (event: GestureResponderEvent) => void;
   size?: number;
   color?: string;
   style?: StyleProp<ViewStyle>;
@@ -21,6 +22,7 @@ interface IconButtonProps {
 export const IconButton = ({
   iconName,
   onPress,
+  onLongPress,
   size = 32,
   color = colors.text,
   style = styles.button,
@@ -28,6 +30,7 @@ export const IconButton = ({
   return (
     <TouchableOpacity
       onPress={onPress}
+      onLongPress={onLongPress}
       style={style}
       id={`${iconName}-button`}
       testID={`${iconName}-button`}

@@ -13,6 +13,7 @@ import text from '../../styles/text';
 import { Note } from '../../types/note/note';
 import ContentGrid from './content_grid';
 import { SearchField } from './content_search_field';
+import { OptionSelection } from './option_selection';
 
 const ContentScreen = ({}) => {
   const navigation = useTypedNavigation();
@@ -20,6 +21,8 @@ const ContentScreen = ({}) => {
 
   const [notes, setNotes] = useState<Note[]>([]);
   const [showSearch, setShowSearch] = useState<boolean>(false);
+  const [showSort, setShowSort] = useState<boolean>(false);
+  const [sortMode, setSortMode] = useState<string>('Expiration Date');
 
   const fetchNotes = async (): Promise<void> => {
     const data = await selectNotes(db);
@@ -67,6 +70,7 @@ const ContentScreen = ({}) => {
         size={32}
         style={styles.manageSearchButton}
         color={colors.background}
+        onLongPress={() => setShowSort(true)}
       />
       <IconButton
         iconName="add"
@@ -75,7 +79,20 @@ const ContentScreen = ({}) => {
         style={styles.addButton}
         color={colors.background}
       />
-      {}
+      {showSort && (
+        <OptionSelection
+          style={styles.optionSelection}
+          title="Sort by:"
+          options={[
+            { text: 'A-Z', onPress: () => console.log('a-Z') },
+            { text: 'Z-A', onPress: () => console.log('Z-A') },
+            { text: 'Expiration Date', onPress: () => console.log('exp') },
+            { text: 'Opening Date', onPress: () => console.log('op') },
+          ]}
+          sortMode={sortMode}
+          setSortMode={setSortMode}
+        />
+      )}
     </View>
   );
 };
@@ -85,6 +102,7 @@ const baseOverlayButton: ViewStyle = {
   backgroundColor: colors.text,
   borderRadius: 20,
   padding: 20,
+  zIndex: 1,
 };
 
 const styles = StyleSheet.create({
@@ -106,6 +124,12 @@ const styles = StyleSheet.create({
     ...baseOverlayButton,
     bottom: 20,
     left: 20,
+  },
+  optionSelection: {
+    ...baseOverlayButton,
+    bottom: 100,
+    left: 20,
+    zIndex: 2,
   },
 });
 
