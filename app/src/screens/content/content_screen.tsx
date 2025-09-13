@@ -1,5 +1,5 @@
 import { useFocusEffect } from '@react-navigation/native';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { StyleSheet, Text, useWindowDimensions, View, ViewStyle } from 'react-native';
 
 import { cleanupUnusedImages } from '../../backend/db/cleanup_images';
@@ -12,11 +12,14 @@ import container from '../../styles/container';
 import text from '../../styles/text';
 import { Note } from '../../types/note/note';
 import ContentGrid from './content_grid';
+import { SearchField } from './content_search_field';
 
 const ContentScreen = ({}) => {
   const navigation = useTypedNavigation();
   const { db } = useDatabase();
+
   const [notes, setNotes] = useState<Note[]>([]);
+  const [showSearch, setShowSearch] = useState<boolean>(false);
 
   const fetchNotes = async (): Promise<void> => {
     const data = await selectNotes(db);
@@ -31,30 +34,43 @@ const ContentScreen = ({}) => {
   );
 
   const { width, height } = useWindowDimensions();
+  const dynamicStyles = useMemo(
+    () => ({
+      screenPadding: {
+        ...container.main,
+        paddingVertical: height * 0.05,
+      },
+      topContainer: {
+        height: height * 0.1,
+        minHeight: 70,
+      },
+    }),
+    [height],
+  );
   return (
-    <View style={{ ...container.main, paddingVertical: height * 0.05 }}>
+    <View style={dynamicStyles.screenPadding}>
       <View style={styles.contentGridContainer}>
-        <Text
-          style={{ ...styles.sectionTitle, paddingVertical: height * 0.05 }}
-          id="content-title"
-          testID="content-title"
-        >
-          Your fridges content
-        </Text>
+        <View style={dynamicStyles.topContainer}>
+          {!showSearch && (
+            <Text style={styles.sectionTitle} id="content-title" testID="content-title">
+              Your fridges content
+            </Text>
+          )}
+          {showSearch && <SearchField onCancel={() => setShowSearch(false)} />}
+        </View>
         <ContentGrid notes={notes} />
       </View>
+
       <IconButton
         iconName="manage-search"
-        onPress={() => {}}
+        onPress={() => setShowSearch(true)}
         size={32}
         style={styles.manageSearchButton}
         color={colors.background}
       />
       <IconButton
         iconName="add"
-        onPress={() => {
-          navigation.navigate('Details', {});
-        }}
+        onPress={() => navigation.navigate('Details', {})}
         size={32}
         style={styles.addButton}
         color={colors.background}
@@ -78,6 +94,8 @@ const styles = StyleSheet.create({
   sectionTitle: {
     ...text.title,
     textAlign: 'center',
+    textAlignVertical: 'center',
+    height: '100%',
   },
   addButton: {
     ...baseOverlayButton,
