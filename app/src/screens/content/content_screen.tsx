@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 
 import { cleanupUnusedImages } from '../../backend/db/cleanup_images';
-import { selectNotes } from '../../backend/db/notes/select';
+import { selectNotes, sortModesMatcher } from '../../backend/db/notes/select';
 import { IconButton } from '../../components/buttons';
 import { useDatabase } from '../../context/db';
 import { useTypedNavigation } from '../../navigation/AppNavigator';
@@ -18,6 +18,7 @@ import colors from '../../styles/colors';
 import container from '../../styles/container';
 import text from '../../styles/text';
 import { Note } from '../../types/note/note';
+import { SortMode } from '../../types/types';
 import ContentGrid from './content_grid';
 import { SearchField } from './content_search_field';
 import { OptionSelection } from './option_selection';
@@ -29,10 +30,10 @@ const ContentScreen = ({}) => {
   const [notes, setNotes] = useState<Note[]>([]);
   const [showSearch, setShowSearch] = useState<boolean>(false);
   const [showSort, setShowSort] = useState<boolean>(false);
-  const [sortMode, setSortMode] = useState<string>('Expiration Date');
+  const [sortMode, setSortMode] = useState<SortMode>('Expiration Date');
 
-  const fetchNotes = async (): Promise<void> => {
-    const data = await selectNotes(db);
+  const fetchNotes = async (sortMode: SortMode): Promise<void> => {
+    const data = await selectNotes(db, sortModesMatcher[sortMode]);
     setNotes(data);
   };
 
@@ -48,9 +49,14 @@ const ContentScreen = ({}) => {
     }
   };
 
+  const handleSortModeChange = (value: SortMode) => {
+    setSortMode(value);
+    void fetchNotes(sortMode);
+  };
+
   useFocusEffect(
     useCallback(() => {
-      void fetchNotes();
+      void fetchNotes(sortMode);
       void cleanupUnusedImages(db);
     }, [db]),
   );
@@ -81,7 +87,7 @@ const ContentScreen = ({}) => {
             )}
             {showSearch && <SearchField onCancel={() => setShowSearch(false)} />}
           </View>
-          <ContentGrid notes={notes} />
+          <ContentGrid notes={notes} sortMode={sortMode} />
         </View>
       </TouchableWithoutFeedback>
 
@@ -111,7 +117,7 @@ const ContentScreen = ({}) => {
             { text: 'Opening Date', onPress: () => console.log('op') },
           ]}
           sortMode={sortMode}
-          setSortMode={setSortMode}
+          setSortMode={handleSortModeChange}
         />
       )}
     </View>

@@ -2,9 +2,10 @@ import { StyleProp, StyleSheet, Text, TouchableOpacity, View, ViewStyle } from '
 
 import colors from '../../styles/colors';
 import text from '../../styles/text';
+import { SortMode } from '../../types/types';
 
 type Option = {
-  text: string;
+  text: SortMode;
   onPress: () => void;
 };
 
@@ -13,7 +14,7 @@ interface OptionSelectionProps {
   options: Option[];
   style?: StyleProp<ViewStyle>;
   sortMode: string;
-  setSortMode: (e: string) => void;
+  setSortMode: (e: SortMode) => void;
 }
 
 export const OptionSelection = ({
@@ -26,8 +27,9 @@ export const OptionSelection = ({
   return (
     <View style={style}>
       <Text style={styles.title}>{title}</Text>
-      {options.map(({ text, onPress }) => (
+      {options.map(({ text, onPress }: Option, index: number) => (
         <TouchableOpacity
+          key={index}
           onPress={() => {
             setSortMode(text);
             onPress();

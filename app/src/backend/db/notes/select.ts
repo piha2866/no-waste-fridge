@@ -2,12 +2,36 @@ import { SQLiteDatabase } from 'react-native-sqlite-storage';
 
 import { Note } from '../../../types/note/note';
 import { noteFromDB } from '../../../types/note/transformer';
+import { SortMode } from '../../../types/types';
 import { DBNote } from '../types';
+
+export interface QueryOptions {
+  sortBy: keyof DBNote;
+  sortDir: 'asc' | 'desc';
+}
+
+export const sortModesMatcher: Record<SortMode, QueryOptions> = {
+  'A-Z': {
+    sortBy: 'title',
+    sortDir: 'asc',
+  },
+  'Z-A': {
+    sortBy: 'title',
+    sortDir: 'desc',
+  },
+  'Expiration Date': {
+    sortBy: 'expiration_date',
+    sortDir: 'asc',
+  },
+  'Opening Date': {
+    sortBy: 'opening_date',
+    sortDir: 'asc',
+  },
+};
 
 export const selectNotes = async (
   db: SQLiteDatabase,
-  sortBy: keyof DBNote = 'expiration_date',
-  sortDir: 'asc' | 'desc' = 'asc',
+  { sortBy = 'expiration_date', sortDir = 'asc' }: QueryOptions,
 ): Promise<Note[]> => {
   const query = `Select * from notes order by ${sortBy} ${sortDir};`;
   const [data] = await db.executeSql(query);
