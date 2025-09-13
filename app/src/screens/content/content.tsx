@@ -30,7 +30,7 @@ export function Content({ note, index }: ContentProps): React.JSX.Element {
               require('../../assets/images/default-food.png')
         }
         style={styles.image}
-        resizeMode="contain"
+        resizeMode="cover"
         id="content_details_mini_image"
         testID="content_details_mini_image"
       />
@@ -48,16 +48,21 @@ const styles = StyleSheet.create({
     margin: 10,
     borderRadius: 20,
     width: 100,
-    height: 120,
-    justifyContent: 'center',
+    height: 130,
+    justifyContent: 'space-between',
     alignItems: 'center',
+    overflow: 'hidden',
   },
   image: {
-    width: 80,
-    height: 80,
+    width: '100%',
+    aspectRatio: 1,
+    maxHeight: 100,
+    maxWidth: 100,
   },
   text: {
+    flex: 1,
     color: colors.text,
-    paddingHorizontal: 10,
+    paddingHorizontal: '10%',
+    textAlignVertical: 'center',
   },
 });
