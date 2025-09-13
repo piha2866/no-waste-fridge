@@ -28,6 +28,9 @@ export const openCamera = async (setImageLocation: (uri: string) => void) => {
       mediaType: 'photo',
       cameraType: 'back',
       saveToPhotos: false,
+      maxHeight: 300,
+      maxWidth: 300,
+      quality: 0.7,
     },
     async (response) => {
       if (response.didCancel) {
