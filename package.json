@@ -13,7 +13,8 @@
     "test": "jest --testPathIgnorePatterns=e2e",
     "detox:build": "detox build --configuration android.emu.debug",
     "detox:rebuild": "cd android && ./gradlew clean && ./gradlew assembleDebug assembleAndroidTest -DtestBuildType=debug",
-    "detox:test": "detox test --configuration android.emu.debug"
+    "detox:test": "detox test --configuration android.emu.debug",
+    "build-android": "cd android && ./gradlew assembleRelease && cd .. && echo '\n✅ APK generated at: android/app/build/outputs/apk/release/app-release.apk\n'"
   },
   "dependencies": {
     "@react-native-community/datetimepicker": "^8.4.1",
