@@ -1,6 +1,13 @@
 import { useFocusEffect } from '@react-navigation/native';
 import React, { useCallback, useMemo, useState } from 'react';
-import { StyleSheet, Text, useWindowDimensions, View, ViewStyle } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  TouchableWithoutFeedback,
+  useWindowDimensions,
+  View,
+  ViewStyle,
+} from 'react-native';
 
 import { cleanupUnusedImages } from '../../backend/db/cleanup_images';
 import { selectNotes } from '../../backend/db/notes/select';
@@ -29,6 +36,18 @@ const ContentScreen = ({}) => {
     setNotes(data);
   };
 
+  const handleSearchPress = () => {
+    if (showSort) {
+      setShowSort(false);
+      return;
+    }
+    if (showSearch) {
+      setShowSearch(false);
+    } else {
+      setShowSearch(true);
+    }
+  };
+
   useFocusEffect(
     useCallback(() => {
       void fetchNotes();
@@ -52,25 +71,27 @@ const ContentScreen = ({}) => {
   );
   return (
     <View style={dynamicStyles.screenPadding}>
-      <View style={styles.contentGridContainer}>
-        <View style={dynamicStyles.topContainer}>
-          {!showSearch && (
-            <Text style={styles.sectionTitle} id="content-title" testID="content-title">
-              Your fridges content
-            </Text>
-          )}
-          {showSearch && <SearchField onCancel={() => setShowSearch(false)} />}
+      <TouchableWithoutFeedback onPress={() => setShowSort(false)}>
+        <View style={styles.contentGridContainer}>
+          <View style={dynamicStyles.topContainer}>
+            {!showSearch && (
+              <Text style={styles.sectionTitle} id="content-title" testID="content-title">
+                Your fridges content
+              </Text>
+            )}
+            {showSearch && <SearchField onCancel={() => setShowSearch(false)} />}
+          </View>
+          <ContentGrid notes={notes} />
         </View>
-        <ContentGrid notes={notes} />
-      </View>
+      </TouchableWithoutFeedback>
 
       <IconButton
         iconName="manage-search"
-        onPress={() => setShowSearch(true)}
+        onPress={handleSearchPress}
         size={32}
         style={styles.manageSearchButton}
         color={colors.background}
-        onLongPress={() => setShowSort(true)}
+        onLongPress={() => (showSort ? setShowSort(false) : setShowSort(true))}
       />
       <IconButton
         iconName="add"
