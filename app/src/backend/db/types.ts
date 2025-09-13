@@ -3,6 +3,7 @@ interface BaseNote {
   description: string;
   opening_date: string;
   expiration_date: string;
+  image_location?: string;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type

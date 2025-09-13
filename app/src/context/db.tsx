@@ -3,6 +3,7 @@ import { ActivityIndicator, Button, Text, View } from 'react-native';
 import { SQLiteDatabase } from 'react-native-sqlite-storage';
 
 import { initializeDB } from '../backend/db/main';
+import OpenAppDetection from '../components/open_app_detection';
 
 type DatabaseContextType = {
   db: SQLiteDatabase;
@@ -49,5 +50,14 @@ export const DatabaseProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     );
   }
 
-  return <DatabaseContext.Provider value={{ db }}>{children}</DatabaseContext.Provider>;
+  const imageCleanup = () => {
+    console.log('test succeeded');
+  };
+
+  return (
+    <DatabaseContext.Provider value={{ db }}>
+      {db && <OpenAppDetection func={imageCleanup} />}
+      {children}
+    </DatabaseContext.Provider>
+  );
 };

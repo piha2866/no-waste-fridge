@@ -1,7 +1,8 @@
 import { useFocusEffect } from '@react-navigation/native';
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 
+import { cleanupUnusedImages } from '../../backend/db/cleanup_images';
 import { selectNotes } from '../../backend/db/notes/select';
 import { useDatabase } from '../../context/db';
 import container from '../../styles/container';
@@ -19,9 +20,12 @@ const ContentScreen = ({}) => {
     setNotes(data);
   };
 
-  useFocusEffect(() => {
-    void fetchNotes(); // refresh data when screen comes into focus
-  });
+  useFocusEffect(
+    useCallback(() => {
+      void fetchNotes();
+      void cleanupUnusedImages(db);
+    }, [db]),
+  );
 
   const { width, height } = useWindowDimensions();
   return (

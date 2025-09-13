@@ -1,6 +1,13 @@
 import { useNavigation } from '@react-navigation/native';
-import React, { useState } from 'react';
-import { Image, StyleSheet, TextInput, useWindowDimensions, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import {
+  Image,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+  useWindowDimensions,
+  View,
+} from 'react-native';
 
 import { deleteNote } from '../../backend/db/notes/delete';
 import { insertNote } from '../../backend/db/notes/insert';
@@ -11,6 +18,7 @@ import { useDatabase } from '../../context/db';
 import container from '../../styles/container';
 import text from '../../styles/text';
 import { NewNote, Note } from '../../types/note/note';
+import { openCamera } from '../../utils/camera';
 import { calcNewExpirationDate } from '../../utils/date_formatting';
 import { isNote } from '../../utils/typeguards';
 
@@ -40,23 +48,10 @@ const DetailsScreen = ({ route }: any) => {
   };
 
   const [title, setTitle] = useState<string>(note.title);
-  const handleTitleChange = async (text: string) => {
-    setTitle(text);
-    const newNote: Note | NewNote = { ...note, title: text };
-    void saveNote(newNote);
-  };
-
   const [description, setDescription] = useState<string>(note.description);
-  const handleDescriptionChange = async (text: string) => {
-    setDescription(text);
-    const newNote: Note | NewNote = { ...note, description: text };
-    void saveNote(newNote);
-  };
 
   const [openingDate, setOpeningDate] = useState<Date>(new Date(note.openingDate));
   const handleOpeningDateChange = async (date: Date) => {
-    const newNote: Note | NewNote = { ...note, openingDate: `${date}` };
-    void saveNote(newNote);
     if (date > expirationDate) {
       const newExpirationDate = calcNewExpirationDate(openingDate, expirationDate, date);
       await handleExpirationDateChange(newExpirationDate);
@@ -66,9 +61,20 @@ const DetailsScreen = ({ route }: any) => {
   const [expirationDate, setExpirationDate] = useState<Date>(new Date(note.expirationDate));
   const handleExpirationDateChange = async (date: Date) => {
     setExpirationDate(date);
-    const newNote: Note | NewNote = { ...note, expirationDate: `${date}` };
-    void saveNote(newNote);
   };
+
+  const [imageLocation, setImageLocation] = useState<string | undefined>(note.imageLocation);
+
+  useEffect(() => {
+    void saveNote({
+      ...note,
+      title,
+      description,
+      openingDate: String(openingDate),
+      expirationDate: String(expirationDate),
+      imageLocation,
+    });
+  }, [title, description, openingDate, expirationDate, imageLocation]);
 
   const handleHome = () => {
     navigation.goBack();
@@ -115,6 +121,10 @@ const DetailsScreen = ({ route }: any) => {
     setExpirationDate(newExpirationDate);
   };
 
+  const addPhoto = async () => {
+    void openCamera(setImageLocation);
+  };
+
   return (
     <View style={{ ...container.main, paddingVertical: height * 0.05 }}>
       <View style={styles.imageIconsContainer}>
@@ -123,14 +133,20 @@ const DetailsScreen = ({ route }: any) => {
           {prevNote && <IconButton iconName="arrow-back" onPress={goToPreviousNote} />}
         </View>
         <View style={styles.middle}>
-          <Image
-            // eslint-disable-next-line @typescript-eslint/no-require-imports
-            source={require('../../assets/images/default-food.png')}
-            style={styles.image}
-            resizeMode="contain"
-            id="content_details_image"
-            testID="content_details_image"
-          />
+          <TouchableOpacity style={styles.imageButton} onPress={addPhoto}>
+            <Image
+              source={
+                imageLocation
+                  ? { uri: `file://${imageLocation}` }
+                  : // eslint-disable-next-line @typescript-eslint/no-require-imports
+                    require('../../assets/images/default-food.png')
+              }
+              style={styles.image}
+              resizeMode="contain"
+              id="content_details_image"
+              testID="content_details_image"
+            />
+          </TouchableOpacity>
         </View>
         <View style={styles.right}>
           {!isNote(note) && (
@@ -154,14 +170,16 @@ const DetailsScreen = ({ route }: any) => {
           placeholder="Title"
           id="content_details_title_field"
           testID="content_details_title_field"
-          onChangeText={handleTitleChange}
+          onChangeText={setTitle}
+          multiline={true}
         />
         <TextInput
           placeholder="Description"
           value={description}
           id="content_details_description_field"
           testID="content_details_description_field"
-          onChangeText={handleDescriptionChange}
+          onChangeText={setDescription}
+          multiline={true}
         />
       </View>
       <View style={{ flexGrow: 1 }} />
@@ -190,9 +208,6 @@ export default DetailsScreen;
 
 const styles = StyleSheet.create({
   title: { ...text.title },
-  image: {
-    flex: 1,
-  },
   left: {
     width: 75,
     flexDirection: 'column',
@@ -212,13 +227,6 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     padding: 10,
   },
-  dateView: {
-    flexWrap: 'wrap',
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    flexShrink: 1,
-    flexGrow: 1,
-  },
   imageIconsContainer: {
     height: '30%',
     flexDirection: 'row',
@@ -229,4 +237,10 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     flexDirection: 'row',
   },
+  image: {
+    flex: 1,
+    minHeight: 100,
+    minWidth: 100,
+  },
+  imageButton: { flex: 1, width: '100%' },
 });

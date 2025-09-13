@@ -7,6 +7,7 @@ export function noteFromDB({
   description,
   opening_date,
   expiration_date,
+  image_location,
 }: DBNote): Note {
   return {
     id,
@@ -14,6 +15,7 @@ export function noteFromDB({
     description,
     openingDate: opening_date,
     expirationDate: expiration_date,
+    imageLocation: image_location,
   };
 }
 
@@ -22,22 +24,32 @@ export function newNoteFromDB({
   description,
   opening_date,
   expiration_date,
+  image_location,
 }: DBNewNote): NewNote {
   return {
     title,
     description,
     openingDate: opening_date,
     expirationDate: expiration_date,
+    imageLocation: image_location,
   };
 }
 
-export function noteToDB({ id, title, description, openingDate, expirationDate }: Note): DBNote {
+export function noteToDB({
+  id,
+  title,
+  description,
+  openingDate,
+  expirationDate,
+  imageLocation,
+}: Note): DBNote {
   return {
     id,
     title,
     description,
     opening_date: openingDate,
     expiration_date: expirationDate,
+    image_location: imageLocation,
   };
 }
 
@@ -46,11 +58,13 @@ export function newNoteToDB({
   description,
   openingDate,
   expirationDate,
+  imageLocation,
 }: NewNote): DBNewNote {
   return {
     title,
     description,
     opening_date: openingDate,
     expiration_date: expirationDate,
+    image_location: imageLocation,
   };
 }

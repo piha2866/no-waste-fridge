@@ -19,3 +19,9 @@ export const selectNote = async (db: SQLiteDatabase, id: string | number): Promi
   const [data] = await db.executeSql(query, [id]);
   return noteFromDB(data.rows.item(0) as DBNote);
 };
+
+export const selectImageLocations = async (db: SQLiteDatabase): Promise<string[]> => {
+  const query = `Select distinct image_location from notes where image_location is not null;`;
+  const [data] = await db.executeSql(query);
+  return data.rows.raw().map((r) => r.image_location);
+};
