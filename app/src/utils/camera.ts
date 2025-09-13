@@ -15,7 +15,7 @@ const splitImageUriToPathAndName = (uri: string) => {
   };
 };
 
-export const openCamera = async () => {
+export const openCamera = async (setImageLocation: (uri: string) => void) => {
   const hasPermission = await requestCameraPermissions();
 
   if (!hasPermission) {
@@ -40,7 +40,7 @@ export const openCamera = async () => {
           if (imageUri) {
             const { fileName } = splitImageUriToPathAndName(imageUri);
             const newUri = await saveImage(imageUri, fileName);
-            //ToDO: save location in db
+            setImageLocation(newUri);
           }
         } catch (error) {
           console.log('Image storage failed');
