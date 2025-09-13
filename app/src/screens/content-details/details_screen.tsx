@@ -142,7 +142,7 @@ const DetailsScreen = ({ route }: any) => {
                     require('../../assets/images/default-food.png')
               }
               style={styles.image}
-              resizeMode="contain"
+              resizeMode="cover"
               id="content_details_image"
               testID="content_details_image"
             />
