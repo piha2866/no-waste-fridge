@@ -2,14 +2,17 @@ import React from 'react';
 import { ScrollView, StyleSheet, useWindowDimensions } from 'react-native';
 
 import { Note } from '../../types/note/note';
+import { SortMode } from '../../types/types';
 import { Content } from './content';
 
 interface ContentGridProps {
   notes: Note[];
+  sortMode: SortMode;
 }
 
-export default function ContentGrid({ notes }: ContentGridProps): React.JSX.Element {
+export default function ContentGrid({ notes, sortMode }: ContentGridProps): React.JSX.Element {
   const { width, height } = useWindowDimensions();
+
   return (
     <ScrollView
       style={styles.scrollView}

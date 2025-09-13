@@ -1,4 +1,3 @@
-import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import {
   GestureResponderEvent,
@@ -11,23 +10,10 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import colors from '../styles/colors';
 
-export const BackButton = (props: any) => {
-  const navigation = useNavigation();
-
-  const handlePress = () => {
-    navigation.goBack();
-  };
-
-  return (
-    <TouchableOpacity style={styles.button} onPress={handlePress}>
-      <Icon name="arrow-back" size={32} color={colors.text} />
-    </TouchableOpacity>
-  );
-};
-
 interface IconButtonProps {
   iconName: string;
   onPress: (event: GestureResponderEvent) => void;
+  onLongPress?: (event: GestureResponderEvent) => void;
   size?: number;
   color?: string;
   style?: StyleProp<ViewStyle>;
@@ -36,6 +22,7 @@ interface IconButtonProps {
 export const IconButton = ({
   iconName,
   onPress,
+  onLongPress,
   size = 32,
   color = colors.text,
   style = styles.button,
@@ -43,6 +30,7 @@ export const IconButton = ({
   return (
     <TouchableOpacity
       onPress={onPress}
+      onLongPress={onLongPress}
       style={style}
       id={`${iconName}-button`}
       testID={`${iconName}-button`}
@@ -59,9 +47,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: 50,
     height: 50,
-  },
-  text: {
-    fontSize: 32,
-    color: colors.text,
   },
 });
