@@ -1,8 +1,13 @@
 import RNFS from 'react-native-fs';
 
-export const saveImage = async (sourcePath: string, name: string): Promise<string> => {
-  const destPath: string = `${RNFS.DocumentDirectoryPath}/${name}`;
+import { imageDestPath } from './config';
 
-  await RNFS.moveFile(sourcePath, destPath);
-  return destPath;
+export const saveImage = async (sourcePath: string, name: string): Promise<string> => {
+  const newImgPath = `${imageDestPath}/${name}`;
+  const exists = await RNFS.exists(imageDestPath);
+  if (!exists) {
+    await RNFS.mkdir(imageDestPath);
+  }
+  await RNFS.moveFile(sourcePath, newImgPath);
+  return newImgPath;
 };
