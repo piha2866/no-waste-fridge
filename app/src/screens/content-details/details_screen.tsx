@@ -1,6 +1,13 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
-import { Image, StyleSheet, TextInput, useWindowDimensions, View } from 'react-native';
+import {
+  Image,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+  useWindowDimensions,
+  View,
+} from 'react-native';
 
 import { deleteNote } from '../../backend/db/notes/delete';
 import { insertNote } from '../../backend/db/notes/insert';
@@ -11,6 +18,7 @@ import { useDatabase } from '../../context/db';
 import container from '../../styles/container';
 import text from '../../styles/text';
 import { NewNote, Note } from '../../types/note/note';
+import { openCamera } from '../../utils/camera';
 import { calcNewExpirationDate } from '../../utils/date_formatting';
 import { isNote } from '../../utils/typeguards';
 
@@ -115,6 +123,11 @@ const DetailsScreen = ({ route }: any) => {
     setExpirationDate(newExpirationDate);
   };
 
+  const addPhoto = async () => {
+    console.log('hallo');
+    const result = openCamera();
+  };
+
   return (
     <View style={{ ...container.main, paddingVertical: height * 0.05 }}>
       <View style={styles.imageIconsContainer}>
@@ -123,14 +136,16 @@ const DetailsScreen = ({ route }: any) => {
           {prevNote && <IconButton iconName="arrow-back" onPress={goToPreviousNote} />}
         </View>
         <View style={styles.middle}>
-          <Image
-            // eslint-disable-next-line @typescript-eslint/no-require-imports
-            source={require('../../assets/images/default-food.png')}
-            style={styles.image}
-            resizeMode="contain"
-            id="content_details_image"
-            testID="content_details_image"
-          />
+          <TouchableOpacity onPress={addPhoto}>
+            <Image
+              // eslint-disable-next-line @typescript-eslint/no-require-imports
+              source={require('../../assets/images/default-food.png')}
+              style={styles.image}
+              resizeMode="contain"
+              id="content_details_image"
+              testID="content_details_image"
+            />
+          </TouchableOpacity>
         </View>
         <View style={styles.right}>
           {!isNote(note) && (
