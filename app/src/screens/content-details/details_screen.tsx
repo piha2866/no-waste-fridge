@@ -1,6 +1,13 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, TextInput, useWindowDimensions, View } from 'react-native';
+import {
+  Image,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+  useWindowDimensions,
+  View,
+} from 'react-native';
 
 import { deleteNote } from '../../backend/db/notes/delete';
 import { insertNote } from '../../backend/db/notes/insert';
@@ -14,7 +21,6 @@ import { NewNote, Note } from '../../types/note/note';
 import { openCamera } from '../../utils/camera';
 import { calcNewExpirationDate } from '../../utils/date_formatting';
 import { isNote } from '../../utils/typeguards';
-import { DetailsImage } from './details_image';
 
 const emptyNote: NewNote = {
   title: '',
@@ -127,7 +133,20 @@ const DetailsScreen = ({ route }: any) => {
           {prevNote && <IconButton iconName="arrow-back" onPress={goToPreviousNote} />}
         </View>
         <View style={styles.middle}>
-          <DetailsImage imageLocation={imageLocation} onPress={addPhoto} />
+          <TouchableOpacity style={styles.imageButton} onPress={addPhoto}>
+            <Image
+              source={
+                imageLocation
+                  ? { uri: `file://${imageLocation}` }
+                  : // eslint-disable-next-line @typescript-eslint/no-require-imports
+                    require('../../assets/images/default-food.png')
+              }
+              style={styles.image}
+              resizeMode="contain"
+              id="content_details_image"
+              testID="content_details_image"
+            />
+          </TouchableOpacity>
         </View>
         <View style={styles.right}>
           {!isNote(note) && (
@@ -218,4 +237,10 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     flexDirection: 'row',
   },
+  image: {
+    flex: 1,
+    minHeight: 100,
+    minWidth: 100,
+  },
+  imageButton: { flex: 1, width: '100%' },
 });

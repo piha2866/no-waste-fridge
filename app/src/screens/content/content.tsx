@@ -23,10 +23,16 @@ export function Content({ note, index }: ContentProps): React.JSX.Element {
       testID={`note-${index}`}
     >
       <Image
-        // eslint-disable-next-line @typescript-eslint/no-require-imports
-        source={require('../../assets/images/default-food.png')}
+        source={
+          note.imageLocation
+            ? { uri: `file://${note.imageLocation}` }
+            : // eslint-disable-next-line @typescript-eslint/no-require-imports
+              require('../../assets/images/default-food.png')
+        }
         style={styles.image}
         resizeMode="contain"
+        id="content_details_mini_image"
+        testID="content_details_mini_image"
       />
       <Text style={styles.text} numberOfLines={1}>
         {note.title}
@@ -46,7 +52,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  image: { width: 80, height: 80 },
+  image: {
+    width: 80,
+    height: 80,
+  },
   text: {
     color: colors.text,
     paddingHorizontal: 10,
