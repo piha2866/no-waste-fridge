@@ -1,17 +1,20 @@
 import { useFocusEffect } from '@react-navigation/native';
 import React, { useCallback, useState } from 'react';
-import { StyleSheet, Text, useWindowDimensions, View } from 'react-native';
+import { StyleSheet, Text, useWindowDimensions, View, ViewStyle } from 'react-native';
 
 import { cleanupUnusedImages } from '../../backend/db/cleanup_images';
 import { selectNotes } from '../../backend/db/notes/select';
+import { IconButton } from '../../components/buttons';
 import { useDatabase } from '../../context/db';
+import { useTypedNavigation } from '../../navigation/AppNavigator';
+import colors from '../../styles/colors';
 import container from '../../styles/container';
 import text from '../../styles/text';
 import { Note } from '../../types/note/note';
-import ContentCreationButton from './content_creation_button';
 import ContentGrid from './content_grid';
 
 const ContentScreen = ({}) => {
+  const navigation = useTypedNavigation();
   const { db } = useDatabase();
   const [notes, setNotes] = useState<Note[]>([]);
 
@@ -40,10 +43,32 @@ const ContentScreen = ({}) => {
         </Text>
         <ContentGrid notes={notes} />
       </View>
-      <ContentCreationButton />
+      <IconButton
+        iconName="manage-search"
+        onPress={() => {}}
+        size={32}
+        style={styles.manageSearchButton}
+        color={colors.background}
+      />
+      <IconButton
+        iconName="add"
+        onPress={() => {
+          navigation.navigate('Details', {});
+        }}
+        size={32}
+        style={styles.addButton}
+        color={colors.background}
+      />
       {}
     </View>
   );
+};
+
+const baseOverlayButton: ViewStyle = {
+  position: 'absolute',
+  backgroundColor: colors.text,
+  borderRadius: 20,
+  padding: 20,
 };
 
 const styles = StyleSheet.create({
@@ -53,6 +78,16 @@ const styles = StyleSheet.create({
   sectionTitle: {
     ...text.title,
     textAlign: 'center',
+  },
+  addButton: {
+    ...baseOverlayButton,
+    bottom: 20,
+    right: 20,
+  },
+  manageSearchButton: {
+    ...baseOverlayButton,
+    bottom: 20,
+    left: 20,
   },
 });
 
