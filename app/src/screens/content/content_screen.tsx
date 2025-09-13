@@ -28,13 +28,25 @@ const ContentScreen = ({}) => {
   const { db } = useDatabase();
 
   const [notes, setNotes] = useState<Note[]>([]);
+  const [searchedNotes, setSearchedNotes] = useState<Note[]>([]);
   const [showSearch, setShowSearch] = useState<boolean>(false);
   const [showSort, setShowSort] = useState<boolean>(false);
   const [sortMode, setSortMode] = useState<SortMode>('Expiration Date');
+  const [searchValue, setSearchvalue] = useState<string>('');
 
   const fetchNotes = async (sortMode: SortMode): Promise<void> => {
     const data = await selectNotes(db, sortModesMatcher[sortMode]);
     setNotes(data);
+  };
+
+  const searchNotes = (searchValue: string) => {
+    const lowerQuery = searchValue.toLowerCase().trim();
+
+    return notes.filter(({ title, description }) => {
+      return (
+        title.toLowerCase().includes(lowerQuery) || description.toLowerCase().includes(lowerQuery)
+      );
+    });
   };
 
   const handleSearchPress = () => {
@@ -44,6 +56,8 @@ const ContentScreen = ({}) => {
     }
     if (showSearch) {
       setShowSearch(false);
+      setSearchedNotes([]);
+      setSearchvalue('');
     } else {
       setShowSearch(true);
     }
@@ -51,7 +65,13 @@ const ContentScreen = ({}) => {
 
   const handleSortModeChange = (value: SortMode) => {
     setSortMode(value);
-    void fetchNotes(sortMode);
+    void fetchNotes(value);
+  };
+
+  const handelSearchValueChange = (newValue: string) => {
+    setSearchvalue(newValue);
+    const result = searchNotes(newValue);
+    setSearchedNotes(result);
   };
 
   useFocusEffect(
@@ -85,9 +105,15 @@ const ContentScreen = ({}) => {
                 Your fridges content
               </Text>
             )}
-            {showSearch && <SearchField onCancel={() => setShowSearch(false)} />}
+            {showSearch && (
+              <SearchField
+                onCancel={() => setShowSearch(false)}
+                searchValue={searchValue}
+                onValueChange={handelSearchValueChange}
+              />
+            )}
           </View>
-          <ContentGrid notes={notes} sortMode={sortMode} />
+          <ContentGrid notes={showSearch ? searchedNotes : notes} sortMode={sortMode} />
         </View>
       </TouchableWithoutFeedback>
 
@@ -111,10 +137,10 @@ const ContentScreen = ({}) => {
           style={styles.optionSelection}
           title="Sort by:"
           options={[
-            { text: 'A-Z', onPress: () => console.log('a-Z') },
-            { text: 'Z-A', onPress: () => console.log('Z-A') },
-            { text: 'Expiration Date', onPress: () => console.log('exp') },
-            { text: 'Opening Date', onPress: () => console.log('op') },
+            { text: 'A-Z', onPress: () => {} },
+            { text: 'Z-A', onPress: () => {} },
+            { text: 'Expiration Date', onPress: () => {} },
+            { text: 'Opening Date', onPress: () => {} },
           ]}
           sortMode={sortMode}
           setSortMode={handleSortModeChange}

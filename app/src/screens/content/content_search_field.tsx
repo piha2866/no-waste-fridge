@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { StyleSheet, TextInput, View } from 'react-native';
 
 import { IconButton } from '../../components/buttons';
@@ -6,19 +6,19 @@ import colors from '../../styles/colors';
 
 interface SearchFieldProps {
   onCancel: () => void;
+  searchValue: string;
+  onValueChange: (e: string) => void;
 }
 
-export const SearchField = ({ onCancel }: SearchFieldProps) => {
-  const [search, setSearch] = useState('');
-
+export const SearchField = ({ onCancel, onValueChange, searchValue }: SearchFieldProps) => {
   return (
     <View style={styles.searchLine}>
       <TextInput
         style={styles.input}
         placeholder="Search"
         placeholderTextColor={colors.text}
-        value={search}
-        onChangeText={setSearch}
+        value={searchValue}
+        onChangeText={onValueChange}
       />
       <IconButton
         color={colors.text}
