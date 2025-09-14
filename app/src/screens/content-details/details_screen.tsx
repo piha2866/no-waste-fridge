@@ -100,6 +100,7 @@ const DetailsScreen = ({ route }: any) => {
     };
     setPrevNote(note as Note);
     setNote({ ...clonedNote });
+    setTemporaryNote(true);
   };
   const handleReset = () => {
     const newOpeningDate = new Date();
