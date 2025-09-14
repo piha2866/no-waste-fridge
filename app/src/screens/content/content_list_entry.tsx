@@ -19,7 +19,7 @@ export function ContentListEntry({ note, index }: ContentProps): React.JSX.Eleme
               require('../../assets/images/default-food.png')
         }
         style={styles.image}
-        resizeMode="contain"
+        resizeMode="cover"
         id="content_details_mini_image"
         testID="content_details_mini_image"
       />
