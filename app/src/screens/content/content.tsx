@@ -5,12 +5,12 @@ import { useTypedNavigation } from '../../navigation/AppNavigator';
 import colors from '../../styles/colors';
 import { Note } from '../../types/note/note';
 
-interface ContentProps {
+export interface ContentProps {
   note: Note;
   index: number;
 }
 
-export function Content({ note, index }: ContentProps): React.JSX.Element {
+export function ContentGridButton({ note, index }: ContentProps): React.JSX.Element {
   const navigation = useTypedNavigation();
   const handlePress = (): void => {
     navigation.navigate('Details', { note });

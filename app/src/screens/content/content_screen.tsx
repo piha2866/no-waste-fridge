@@ -19,7 +19,7 @@ import container from '../../styles/container';
 import text from '../../styles/text';
 import { Note } from '../../types/note/note';
 import { SortMode } from '../../types/types';
-import ContentGrid from './content_grid';
+import Content from './content_grid';
 import { SearchField } from './content_search_field';
 import { OptionSelection } from './option_selection';
 
@@ -113,7 +113,7 @@ const ContentScreen = ({}) => {
               />
             )}
           </View>
-          <ContentGrid notes={showSearch ? searchedNotes : notes} sortMode={sortMode} />
+          <Content notes={showSearch ? searchedNotes : notes} style="List" sortMode={sortMode} />
         </View>
       </TouchableWithoutFeedback>
 
