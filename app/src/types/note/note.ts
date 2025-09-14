@@ -1,8 +1,8 @@
 interface BaseNote {
   title: string;
   description: string;
-  openingDate: string;
-  expirationDate: string;
+  openingDate: Date;
+  expirationDate: Date;
   imageLocation?: string;
 }
 

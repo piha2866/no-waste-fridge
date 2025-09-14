@@ -13,8 +13,8 @@ export function noteFromDB({
     id,
     title,
     description,
-    openingDate: opening_date,
-    expirationDate: expiration_date,
+    openingDate: new Date(opening_date),
+    expirationDate: new Date(expiration_date),
     imageLocation: image_location,
   };
 }
@@ -29,8 +29,8 @@ export function newNoteFromDB({
   return {
     title,
     description,
-    openingDate: opening_date,
-    expirationDate: expiration_date,
+    openingDate: new Date(opening_date),
+    expirationDate: new Date(expiration_date),
     imageLocation: image_location,
   };
 }
@@ -47,8 +47,8 @@ export function noteToDB({
     id,
     title,
     description,
-    opening_date: openingDate,
-    expiration_date: expirationDate,
+    opening_date: String(openingDate),
+    expiration_date: String(expirationDate),
     image_location: imageLocation,
   };
 }
@@ -63,8 +63,8 @@ export function newNoteToDB({
   return {
     title,
     description,
-    opening_date: openingDate,
-    expiration_date: expirationDate,
+    opening_date: String(openingDate),
+    expiration_date: String(expirationDate),
     image_location: imageLocation,
   };
 }
