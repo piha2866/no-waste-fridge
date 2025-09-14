@@ -25,8 +25,8 @@ import { isNote } from '../../utils/typeguards';
 const emptyNote: NewNote = {
   title: '',
   description: '',
-  expirationDate: String(new Date()),
-  openingDate: String(new Date()),
+  expirationDate: new Date(),
+  openingDate: new Date(),
 };
 
 const DetailsScreen = ({ route }: any) => {
@@ -36,54 +36,50 @@ const DetailsScreen = ({ route }: any) => {
 
   const { note: passedNote } = route.params || {};
   const [note, setNote] = useState<Note | NewNote>(passedNote || emptyNote);
+  const [temporaryNote, setTemporaryNote] = useState<boolean>(note.id ? false : true);
 
   const [prevNote, setPrevNote] = useState<Note | false>(false);
 
   const saveNote = async (note: Note | NewNote): Promise<void> => {
+    setTemporaryNote(false);
     const savedNote = isNote(note)
       ? await updateNote(db, note as Note)
       : await insertNote(db, note);
-
-    setNote(savedNote);
-  };
-
-  const [title, setTitle] = useState<string>(note.title);
-  const [description, setDescription] = useState<string>(note.description);
-
-  const [openingDate, setOpeningDate] = useState<Date>(new Date(note.openingDate));
-  const handleOpeningDateChange = async (date: Date) => {
-    if (date > expirationDate) {
-      const newExpirationDate = calcNewExpirationDate(openingDate, expirationDate, date);
-      await handleExpirationDateChange(newExpirationDate);
+    if (!note.id) {
+      console.log('set after save');
+      setNote(savedNote);
     }
-    setOpeningDate(date);
   };
-  const [expirationDate, setExpirationDate] = useState<Date>(new Date(note.expirationDate));
+
+  const handleOpeningDateChange = async (date: Date) => {
+    console.log('opening date change', date);
+    setNote((prev) => ({ ...prev, openingDate: date }));
+    if (date > note.expirationDate) {
+      const newExpirationDate = calcNewExpirationDate(note.openingDate, note.expirationDate, date);
+      void handleExpirationDateChange(newExpirationDate);
+    }
+  };
+
   const handleExpirationDateChange = async (date: Date) => {
-    setExpirationDate(date);
+    console.log('expiration', date);
+    setNote((prev) => ({ ...prev, expirationDate: date }));
   };
 
   const [imageLocation, setImageLocation] = useState<string | undefined>(note.imageLocation);
 
   useEffect(() => {
-    void saveNote({
-      ...note,
-      title,
-      description,
-      openingDate: String(openingDate),
-      expirationDate: String(expirationDate),
-      imageLocation,
-    });
-  }, [title, description, openingDate, expirationDate, imageLocation]);
+    console.log('note changed, temporary note:', temporaryNote);
+    if (temporaryNote) return;
+    console.log('saving', note);
+    void saveNote(note);
+  }, [note]);
 
   const handleHome = () => {
     navigation.goBack();
   };
   const goToPreviousNote = () => {
     if (prevNote) {
-      void saveNote(prevNote);
-      setOpeningDate(new Date(prevNote.openingDate));
-      setExpirationDate(new Date(prevNote.expirationDate));
+      setNote(prevNote);
       setPrevNote(false);
     }
   };
@@ -95,30 +91,26 @@ const DetailsScreen = ({ route }: any) => {
 
   const handleClone = () => {
     const newOpeningDate = new Date();
-    const newExpirationDate = calcNewExpirationDate(openingDate, expirationDate);
+    const newExpirationDate = calcNewExpirationDate(note.openingDate, note.expirationDate);
     const clonedNote: NewNote = {
       title: note.title,
       description: note.description,
-      openingDate: String(newOpeningDate),
-      expirationDate: String(newExpirationDate),
+      openingDate: newOpeningDate,
+      expirationDate: newExpirationDate,
     };
     setPrevNote(note as Note);
     setNote({ ...clonedNote });
-    setOpeningDate(newOpeningDate);
-    setExpirationDate(newExpirationDate);
   };
   const handleReset = () => {
     const newOpeningDate = new Date();
-    const newExpirationDate = calcNewExpirationDate(openingDate, expirationDate);
+    const newExpirationDate = calcNewExpirationDate(note.openingDate, note.expirationDate);
     const newNote: Note = {
       ...(note as Note),
-      openingDate: String(newOpeningDate),
-      expirationDate: String(newExpirationDate),
+      openingDate: newOpeningDate,
+      expirationDate: newExpirationDate,
     };
     setPrevNote(note as Note);
-    void saveNote(newNote);
-    setOpeningDate(newOpeningDate);
-    setExpirationDate(newExpirationDate);
+    setNote(newNote);
   };
 
   const addPhoto = async () => {
@@ -142,7 +134,7 @@ const DetailsScreen = ({ route }: any) => {
                     require('../../assets/images/default-food.png')
               }
               style={styles.image}
-              resizeMode="cover"
+              resizeMode="contain"
               id="content_details_image"
               testID="content_details_image"
             />
@@ -166,19 +158,19 @@ const DetailsScreen = ({ route }: any) => {
       <View>
         <TextInput
           style={styles.title}
-          value={title}
+          value={note.title}
           placeholder="Title"
           id="content_details_title_field"
           testID="content_details_title_field"
-          onChangeText={setTitle}
+          onChangeText={(text: string) => setNote((prev) => ({ ...prev, title: text }))}
           multiline={true}
         />
         <TextInput
           placeholder="Description"
-          value={description}
+          value={note.description}
           id="content_details_description_field"
           testID="content_details_description_field"
-          onChangeText={setDescription}
+          onChangeText={(text: string) => setNote((prev) => ({ ...prev, description: text }))}
           multiline={true}
         />
       </View>
@@ -186,18 +178,18 @@ const DetailsScreen = ({ route }: any) => {
       <View style={styles.detailsContainer}>
         <DateTimePickerCombiField
           name="Opening date"
-          date={openingDate}
+          date={note.openingDate}
           testId="content_details_opening_date"
           id="content_details_opening_date"
           setDate={handleOpeningDateChange}
         />
         <DateTimePickerCombiField
           name="Expiration date"
-          date={expirationDate}
+          date={note.expirationDate}
           id="content_details_expiration_date"
           testId="content_details_expiration_date"
           setDate={handleExpirationDateChange}
-          minDate={openingDate}
+          minDate={note.openingDate}
         />
       </View>
     </View>
