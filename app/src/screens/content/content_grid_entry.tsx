@@ -8,6 +8,7 @@ import { Note } from '../../types/note/note';
 export interface ContentProps {
   note: Note;
   index: number;
+  handleDelete: (id: number) => void;
 }
 
 export function ContentGridButton({ note, index }: ContentProps): React.JSX.Element {

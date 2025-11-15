@@ -3,7 +3,7 @@ import { ScrollView, StyleSheet, useWindowDimensions } from 'react-native';
 
 import { Note } from '../../types/note/note';
 import { SortMode } from '../../types/types';
-import { ContentGridButton } from './content';
+import { ContentGridButton } from './content_grid_entry';
 import { ContentListEntry } from './content_list_entry';
 
 const styles = StyleSheet.create({
@@ -24,6 +24,7 @@ interface ContentGridProps {
   notes: Note[];
   sortMode: SortMode;
   style: 'Grid' | 'List';
+  handleDelete: (id: number) => void;
 }
 
 const ContentButtonMapper = {
@@ -36,7 +37,12 @@ const ContentStyleMapper = {
   List: styles.listContentWrapper,
 };
 
-export default function Content({ notes, style, sortMode }: ContentGridProps): React.JSX.Element {
+export default function Content({
+  notes,
+  style,
+  sortMode,
+  handleDelete,
+}: ContentGridProps): React.JSX.Element {
   const { width, height } = useWindowDimensions();
   const ContentButton = ContentButtonMapper[style];
   const contentWrapperStyle = ContentStyleMapper[style];
@@ -46,7 +52,7 @@ export default function Content({ notes, style, sortMode }: ContentGridProps): R
       contentContainerStyle={{ ...contentWrapperStyle, paddingBottom: height * 0.2 }}
     >
       {notes.map((note: Note, index: number) => (
-        <ContentButton key={index} note={note} index={index} />
+        <ContentButton key={index} note={note} index={index} handleDelete={handleDelete} />
       ))}
     </ScrollView>
   );

@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 
 import { cleanupUnusedImages } from '../../backend/db/cleanup_images';
+import { deleteNote } from '../../backend/db/notes/delete';
 import { selectNotes, sortModesMatcher } from '../../backend/db/notes/select';
 import { IconButton } from '../../components/buttons';
 import { useDatabase } from '../../context/db';
@@ -74,6 +75,11 @@ const ContentScreen = ({}) => {
     setSearchedNotes(result);
   };
 
+  const handleDelete = async (id: number) => {
+    await deleteNote(db, id);
+    setNotes((prev) => prev.filter((note) => note.id !== id));
+  };
+
   useFocusEffect(
     useCallback(() => {
       void fetchNotes(sortMode);
@@ -113,7 +119,12 @@ const ContentScreen = ({}) => {
               />
             )}
           </View>
-          <Content notes={showSearch ? searchedNotes : notes} style="List" sortMode={sortMode} />
+          <Content
+            notes={showSearch ? searchedNotes : notes}
+            style="List"
+            sortMode={sortMode}
+            handleDelete={handleDelete}
+          />
         </View>
       </TouchableWithoutFeedback>
 
