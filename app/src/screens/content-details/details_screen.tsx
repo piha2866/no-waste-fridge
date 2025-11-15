@@ -36,7 +36,7 @@ const DetailsScreen = ({ route }: any) => {
 
   const { note: passedNote } = route.params || {};
   const [note, setNote] = useState<Note | NewNote>(passedNote || emptyNote);
-  const [temporaryNote, setTemporaryNote] = useState<boolean>(note.id ? false : true);
+  const [temporaryNote, setTemporaryNote] = useState<boolean>(isNote(note) ? false : true);
 
   const [prevNote, setPrevNote] = useState<Note | false>(false);
 
@@ -45,7 +45,7 @@ const DetailsScreen = ({ route }: any) => {
     const savedNote = isNote(note)
       ? await updateNote(db, note as Note)
       : await insertNote(db, note);
-    if (!note.id) {
+    if (!isNote(note)) {
       console.log('set after save');
       setNote(savedNote);
     }
@@ -65,7 +65,9 @@ const DetailsScreen = ({ route }: any) => {
     setNote((prev) => ({ ...prev, expirationDate: date }));
   };
 
-  const [imageLocation, setImageLocation] = useState<string | undefined>(note.imageLocation);
+  const setImageLocation = (newLocation: string) => {
+    setNote((prev) => ({ ...prev, imageLocation: newLocation }));
+  };
 
   useEffect(() => {
     console.log('note changed, temporary note:', temporaryNote);
@@ -129,8 +131,8 @@ const DetailsScreen = ({ route }: any) => {
           <TouchableOpacity style={styles.imageButton} onPress={addPhoto}>
             <Image
               source={
-                imageLocation
-                  ? { uri: `file://${imageLocation}` }
+                note.imageLocation
+                  ? { uri: `file://${note.imageLocation}` }
                   : // eslint-disable-next-line @typescript-eslint/no-require-imports
                     require('../../assets/images/default-food.png')
               }
