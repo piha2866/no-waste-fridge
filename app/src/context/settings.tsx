@@ -3,15 +3,24 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 
 const SETTINGS_KEY = 'app_settings';
 
-const defaultSettings = {
+type Settings = {
+  darkMode: boolean;
+  contentView: 'Grid' | 'List';
+};
+
+const defaultSettings: Settings = {
   darkMode: false,
   contentView: 'Grid',
 };
 
-const SettingsContext = createContext(null);
+const SettingsContext = createContext<SettingsHook | null>(null);
 
-export const SettingsProvider = ({ children }) => {
-  const [settings, setSettings] = useState(defaultSettings);
+type SettingsProviderProps = {
+  children: React.ReactNode;
+};
+
+export const SettingsProvider: React.FC<SettingsProviderProps> = ({ children }) => {
+  const [settings, setSettings] = useState<Settings>(defaultSettings);
   const [isReady, setIsReady] = useState(false);
 
   // Load settings once on app start
@@ -19,15 +28,12 @@ export const SettingsProvider = ({ children }) => {
     const loadSettings = async () => {
       try {
         const stored = await AsyncStorage.getItem(SETTINGS_KEY);
-        console.log('STORED STUFF', stored);
         if (stored) {
-          console.log('setting stored settings');
           setSettings(JSON.parse(stored));
         }
       } catch (e) {
         console.warn('Failed to load settings', e);
       } finally {
-        console.log('READY');
         setIsReady(true);
       }
     };
@@ -36,32 +42,36 @@ export const SettingsProvider = ({ children }) => {
   }, []);
 
   // Save helper
-  const updateSetting = async (key: string, value: string | number) => {
-    const updated = { ...settings, [key]: value };
-    setSettings(updated);
+  const updateSetting = <K extends keyof Settings>(key: K, value: Settings[K]) => {
+    setSettings((prev) => {
+      const updated = { ...prev, [key]: value };
 
-    try {
-      await AsyncStorage.setItem(SETTINGS_KEY, JSON.stringify(updated));
-    } catch (e) {
-      console.warn('Failed to save settings', e);
-    }
+      // Persist inside state update to avoid stale closures
+      void AsyncStorage.setItem(SETTINGS_KEY, JSON.stringify(updated)).catch((e) => {
+        console.warn('Failed to save settings', e);
+      });
+
+      return updated;
+    });
   };
 
-  return (
-    <SettingsContext.Provider
-      value={{
-        settings,
-        updateSetting,
-        isReady,
-      }}
-    >
-      {children}
-    </SettingsContext.Provider>
-  );
+  const value: SettingsHook = {
+    settings,
+    updateSetting,
+    isReady,
+  };
+
+  return <SettingsContext.Provider value={value}>{children}</SettingsContext.Provider>;
 };
 
 // Custom hook (IMPORTANT)
-export const useSettings = () => {
+type SettingsHook = {
+  settings: Settings;
+  updateSetting: <K extends keyof Settings>(key: K, value: Settings[K]) => void;
+  isReady: boolean;
+};
+
+export const useSettings = (): SettingsHook => {
   const ctx = useContext(SettingsContext);
   if (!ctx) {
     throw new Error('useSettings must be used inside SettingsProvider');
