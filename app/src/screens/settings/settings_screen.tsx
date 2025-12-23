@@ -1,10 +1,11 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useMemo, useState } from 'react';
 import { ScrollView, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
-import { Button, List, Switch } from 'react-native-paper';
+import { Button, DefaultTheme, Divider, List, Switch } from 'react-native-paper';
 
 import { IconButton } from '../../components/buttons';
 import { useSettings } from '../../context/settings';
+import colors from '../../styles/colors';
 import container from '../../styles/container';
 import text from '../../styles/text';
 
@@ -34,6 +35,14 @@ const SettingsScreen = ({ route }: any) => {
       }),
     [height],
   );
+  // style theme for paper components
+  const theme = {
+    ...DefaultTheme,
+    colors: {
+      ...DefaultTheme.colors,
+      primary: colors.text, // default purple
+    },
+  };
   return (
     <View style={dynamicStyles.screenPadding}>
       <View style={dynamicStyles.topContainer}>
@@ -49,6 +58,7 @@ const SettingsScreen = ({ route }: any) => {
           right={() => (
             <View style={styles.toggleRow}>
               <Button
+                theme={theme}
                 mode={settings.contentView === 'List' ? 'contained' : 'outlined'}
                 compact
                 onPress={() => updateSetting('contentView', 'List')}
@@ -56,6 +66,7 @@ const SettingsScreen = ({ route }: any) => {
                 <Text>List</Text>
               </Button>
               <Button
+                theme={theme}
                 mode={settings.contentView === 'Grid' ? 'contained' : 'outlined'}
                 compact
                 onPress={() => updateSetting('contentView', 'Grid')}
@@ -67,7 +78,23 @@ const SettingsScreen = ({ route }: any) => {
         />
         <List.Item
           title="Dark Mode"
-          right={() => <Switch value={darkMode} onValueChange={() => setDarkMode(!darkMode)} />}
+          right={() => (
+            <Switch value={darkMode} theme={theme} onValueChange={() => setDarkMode(!darkMode)} />
+          )}
+        />
+        <Divider style={{ marginVertical: 10 }} />
+        <Text style={styles.header}>Notifications</Text>
+        <List.Item
+          title="Deletion Confirmation"
+          right={() => (
+            <Switch
+              theme={theme}
+              value={settings.deletionConfirmation}
+              onValueChange={() =>
+                updateSetting('deletionConfirmation', !settings.deletionConfirmation)
+              }
+            />
+          )}
         />
         {/* <List.Item
           title="Font Size"
