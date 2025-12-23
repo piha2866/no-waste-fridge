@@ -6,11 +6,13 @@ const SETTINGS_KEY = 'app_settings';
 type Settings = {
   darkMode: boolean;
   contentView: 'Grid' | 'List';
+  deletionConfirmation: boolean;
 };
 
 const defaultSettings: Settings = {
   darkMode: false,
   contentView: 'Grid',
+  deletionConfirmation: true,
 };
 
 const SettingsContext = createContext<SettingsHook | null>(null);

@@ -1,6 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native';
 import React from 'react';
 import { ActivityIndicator, View } from 'react-native';
+import { Provider as PaperProvider } from 'react-native-paper';
 
 import { DatabaseProvider } from './src/context/db';
 import { SettingsProvider, useSettings } from './src/context/settings';
@@ -22,13 +23,15 @@ const AppContent = () => {
 
 const App = () => {
   return (
-    <SettingsProvider>
-      <DatabaseProvider>
-        <NavigationContainer>
-          <AppContent />
-        </NavigationContainer>
-      </DatabaseProvider>
-    </SettingsProvider>
+    <PaperProvider>
+      <SettingsProvider>
+        <DatabaseProvider>
+          <NavigationContainer>
+            <AppContent />
+          </NavigationContainer>
+        </DatabaseProvider>
+      </SettingsProvider>
+    </PaperProvider>
   );
 };
 
