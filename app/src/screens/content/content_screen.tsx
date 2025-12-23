@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 
 import { cleanupUnusedImages } from '../../backend/db/cleanup_images';
+import { deleteNote } from '../../backend/db/notes/delete';
 import { selectNotes, sortModesMatcher } from '../../backend/db/notes/select';
 import { IconButton } from '../../components/buttons';
 import { useDatabase } from '../../context/db';
@@ -19,7 +20,7 @@ import container from '../../styles/container';
 import text from '../../styles/text';
 import { Note } from '../../types/note/note';
 import { SortMode } from '../../types/types';
-import ContentGrid from './content_grid';
+import Content from './content_grid';
 import { SearchField } from './content_search_field';
 import { OptionSelection } from './option_selection';
 
@@ -74,6 +75,11 @@ const ContentScreen = ({}) => {
     setSearchedNotes(result);
   };
 
+  const handleDelete = async (id: number) => {
+    await deleteNote(db, id);
+    setNotes((prev) => prev.filter((note) => note.id !== id));
+  };
+
   useFocusEffect(
     useCallback(() => {
       void fetchNotes(sortMode);
@@ -113,7 +119,12 @@ const ContentScreen = ({}) => {
               />
             )}
           </View>
-          <ContentGrid notes={showSearch ? searchedNotes : notes} sortMode={sortMode} />
+          <Content
+            notes={showSearch ? searchedNotes : notes}
+            style="List"
+            sortMode={sortMode}
+            handleDelete={handleDelete}
+          />
         </View>
       </TouchableWithoutFeedback>
 
