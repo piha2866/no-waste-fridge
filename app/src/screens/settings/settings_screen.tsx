@@ -1,7 +1,8 @@
+/* eslint-disable react-native/no-raw-text */
 import { useNavigation } from '@react-navigation/native';
 import React, { useMemo, useState } from 'react';
-import { ScrollView, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
-import { Button, DefaultTheme, Divider, List, Switch } from 'react-native-paper';
+import { ScrollView, StyleSheet, useWindowDimensions, View } from 'react-native';
+import { Button, DefaultTheme, Divider, List, Switch, Text } from 'react-native-paper';
 
 import { IconButton } from '../../components/buttons';
 import { useSettings } from '../../context/settings';
@@ -41,6 +42,9 @@ const SettingsScreen = ({ route }: any) => {
     colors: {
       ...DefaultTheme.colors,
       primary: colors.text, // default purple
+      onPrimary: colors.background,
+      outline: colors.text,
+      onSurface: colors.text,
     },
   };
   return (
@@ -48,12 +52,17 @@ const SettingsScreen = ({ route }: any) => {
       <View style={dynamicStyles.topContainer}>
         <IconButton iconName="home" onPress={handleHome} />
         <View style={styles.titleBar}>
-          <Text style={styles.sectionTitle}> Settings</Text>
+          <Text theme={theme} style={styles.sectionTitle}>
+            Settings
+          </Text>
         </View>
       </View>
       <ScrollView style={styles.container}>
-        <Text style={styles.header}>Appearance</Text>
+        <Text style={styles.header} theme={theme}>
+          Appearance
+        </Text>
         <List.Item
+          theme={theme}
           title="Content View"
           right={() => (
             <View style={styles.toggleRow}>
@@ -63,7 +72,7 @@ const SettingsScreen = ({ route }: any) => {
                 compact
                 onPress={() => updateSetting('contentView', 'List')}
               >
-                <Text>List</Text>
+                List
               </Button>
               <Button
                 theme={theme}
@@ -71,20 +80,22 @@ const SettingsScreen = ({ route }: any) => {
                 compact
                 onPress={() => updateSetting('contentView', 'Grid')}
               >
-                <Text>Grid</Text>
+                Grid
               </Button>
             </View>
           )}
         />
         <List.Item
+          theme={theme}
           title="Dark Mode"
-          right={() => (
-            <Switch value={darkMode} theme={theme} onValueChange={() => setDarkMode(!darkMode)} />
-          )}
+          right={() => <Switch value={darkMode} onValueChange={() => setDarkMode(!darkMode)} />}
         />
         <Divider style={{ marginVertical: 10 }} />
-        <Text style={styles.header}>Notifications</Text>
+        <Text style={styles.header} theme={theme}>
+          Notifications
+        </Text>
         <List.Item
+          theme={theme}
           title="Deletion Confirmation"
           right={() => (
             <Switch

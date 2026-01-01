@@ -16,6 +16,7 @@ import { IconButton } from '../../components/buttons';
 import DateTimePickerCombiField from '../../components/date_time_picker_combi_field';
 import DeletionConfirmationDialog from '../../components/modals/confirmation_popup';
 import { useDatabase } from '../../context/db';
+import colors from '../../styles/colors';
 import container from '../../styles/container';
 import text from '../../styles/text';
 import { NewNote, Note } from '../../types/note/note';
@@ -180,6 +181,7 @@ const DetailsScreen = ({ route }: any) => {
           testID="content_details_title_field"
           onChangeText={(text: string) => setNote((prev) => ({ ...prev, title: text }))}
           multiline={true}
+          placeholderTextColor={colors.text}
         />
         <TextInput
           placeholder="Description"
@@ -188,6 +190,7 @@ const DetailsScreen = ({ route }: any) => {
           testID="content_details_description_field"
           onChangeText={(text: string) => setNote((prev) => ({ ...prev, description: text }))}
           multiline={true}
+          placeholderTextColor={colors.text}
         />
       </View>
       <View style={{ flexGrow: 1 }} />
