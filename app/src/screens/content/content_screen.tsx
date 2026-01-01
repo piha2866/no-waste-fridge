@@ -14,6 +14,7 @@ import { deleteNote } from '../../backend/db/notes/delete';
 import { selectNotes, sortModesMatcher } from '../../backend/db/notes/select';
 import { IconButton } from '../../components/buttons';
 import { useDatabase } from '../../context/db';
+import { useSettings } from '../../context/settings';
 import { useTypedNavigation } from '../../navigation/AppNavigator';
 import colors from '../../styles/colors';
 import container from '../../styles/container';
@@ -27,6 +28,7 @@ import { OptionSelection } from './option_selection';
 const ContentScreen = ({}) => {
   const navigation = useTypedNavigation();
   const { db } = useDatabase();
+  const { settings } = useSettings();
 
   const [notes, setNotes] = useState<Note[]>([]);
   const [searchedNotes, setSearchedNotes] = useState<Note[]>([]);
@@ -89,16 +91,17 @@ const ContentScreen = ({}) => {
 
   const { width, height } = useWindowDimensions();
   const dynamicStyles = useMemo(
-    () => ({
-      screenPadding: {
-        ...container.main,
-        paddingVertical: height * 0.05,
-      },
-      topContainer: {
-        height: height * 0.1,
-        minHeight: 70,
-      },
-    }),
+    () =>
+      StyleSheet.create({
+        screenPadding: {
+          ...container.main,
+          paddingVertical: height * 0.05,
+        },
+        topContainer: {
+          height: height * 0.1,
+          minHeight: 70,
+        },
+      }),
     [height],
   );
   return (
@@ -107,9 +110,12 @@ const ContentScreen = ({}) => {
         <View style={styles.contentGridContainer}>
           <View style={dynamicStyles.topContainer}>
             {!showSearch && (
-              <Text style={styles.sectionTitle} id="content-title" testID="content-title">
-                Your fridges content
-              </Text>
+              <View style={styles.titleBar}>
+                <Text style={styles.sectionTitle} id="content-title" testID="content-title">
+                  Your fridges content
+                </Text>
+                <IconButton iconName="more-vert" onPress={() => navigation.navigate('Settings')} />
+              </View>
             )}
             {showSearch && (
               <SearchField
@@ -121,7 +127,7 @@ const ContentScreen = ({}) => {
           </View>
           <Content
             notes={showSearch ? searchedNotes : notes}
-            style="List"
+            style={settings.contentView}
             sortMode={sortMode}
             handleDelete={handleDelete}
           />
@@ -175,9 +181,6 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     ...text.title,
-    textAlign: 'center',
-    textAlignVertical: 'center',
-    height: '100%',
   },
   addButton: {
     ...baseOverlayButton,
@@ -194,6 +197,12 @@ const styles = StyleSheet.create({
     bottom: 100,
     left: 20,
     zIndex: 2,
+  },
+  titleBar: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
 });
 

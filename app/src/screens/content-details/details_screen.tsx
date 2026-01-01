@@ -14,7 +14,9 @@ import { insertNote } from '../../backend/db/notes/insert';
 import { updateNote } from '../../backend/db/notes/update';
 import { IconButton } from '../../components/buttons';
 import DateTimePickerCombiField from '../../components/date_time_picker_combi_field';
+import DeletionConfirmationDialog from '../../components/modals/confirmation_popup';
 import { useDatabase } from '../../context/db';
+import colors from '../../styles/colors';
 import container from '../../styles/container';
 import text from '../../styles/text';
 import { NewNote, Note } from '../../types/note/note';
@@ -39,6 +41,9 @@ const DetailsScreen = ({ route }: any) => {
   const [temporaryNote, setTemporaryNote] = useState<boolean>(isNote(note) ? false : true);
 
   const [prevNote, setPrevNote] = useState<Note | false>(false);
+
+  const [deletionConfirmationVisibility, setDeletionConfirmationVisibility] =
+    useState<boolean>(false);
 
   const saveNote = async (note: Note | NewNote): Promise<void> => {
     setTemporaryNote(false);
@@ -85,6 +90,15 @@ const DetailsScreen = ({ route }: any) => {
       setPrevNote(false);
     }
   };
+
+  const triggerDelete = () => {
+    setDeletionConfirmationVisibility(true);
+  };
+
+  const cancelDelete = () => {
+    setDeletionConfirmationVisibility(false);
+  };
+
   const handleDelete = async () => {
     if (!isNote(note)) return;
     await deleteNote(db, note.id);
@@ -153,7 +167,7 @@ const DetailsScreen = ({ route }: any) => {
               }}
             />
           )}
-          {isNote(note) && <IconButton iconName="delete" onPress={handleDelete} />}
+          {isNote(note) && <IconButton iconName="delete" onPress={triggerDelete} />}
           {isNote(note) && <IconButton iconName="content-copy" onPress={handleClone} />}
           {isNote(note) && <IconButton iconName="restore" onPress={handleReset} />}
         </View>
@@ -167,6 +181,7 @@ const DetailsScreen = ({ route }: any) => {
           testID="content_details_title_field"
           onChangeText={(text: string) => setNote((prev) => ({ ...prev, title: text }))}
           multiline={true}
+          placeholderTextColor={colors.text}
         />
         <TextInput
           placeholder="Description"
@@ -175,6 +190,7 @@ const DetailsScreen = ({ route }: any) => {
           testID="content_details_description_field"
           onChangeText={(text: string) => setNote((prev) => ({ ...prev, description: text }))}
           multiline={true}
+          placeholderTextColor={colors.text}
         />
       </View>
       <View style={{ flexGrow: 1 }} />
@@ -195,6 +211,11 @@ const DetailsScreen = ({ route }: any) => {
           minDate={note.openingDate}
         />
       </View>
+      <DeletionConfirmationDialog
+        onConfirm={handleDelete}
+        onCancel={cancelDelete}
+        visible={deletionConfirmationVisibility}
+      ></DeletionConfirmationDialog>
     </View>
   );
 };
